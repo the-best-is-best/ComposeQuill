@@ -20,29 +20,29 @@ tasks.register<Zip>("aar") {
     }
     archiveFileName.set("example.aar")
 }
-
-publishing {
-
-    publications.create<MavenPublication>("lib") {
-        groupId = "com.tbib"
-        artifactId = "ttextricheditor"
-        version = "0.0.1"
-        artifact("$buildDir/outputs/aar/tTextRichEditor-release.aar")
-
-
-    }
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/the-best-is-best/AndroidTextRichEditor")
-            credentials {
-                username = "the-best-is-best"
-                password =
-                    "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"
-            }
-        }
-    }
-}
+//
+//publishing {
+//
+//    publications.create<MavenPublication>("lib") {
+//        groupId = "com.tbib"
+//        artifactId = "ttextricheditor"
+//        version = "0.0.1"
+//        artifact("$buildDir/outputs/aar/tTextRichEditor-release.aar")
+//
+//
+//    }
+//    repositories {
+//        maven {
+//            name = "GitHubPackages"
+//            url = uri("https://maven.pkg.github.com/the-best-is-best/AndroidTextRichEditor")
+//            credentials {
+//                username = "the-best-is-best"
+//                password =
+//                    "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"
+//            }
+//        }
+//    }
+//}
 android {
     namespace = "com.tbib.ttextricheditor"
     compileSdk = 34
