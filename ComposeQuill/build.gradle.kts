@@ -66,10 +66,10 @@ afterEvaluate {
         repositories {
 
 
-            maven {
-                name = "LocalMaven"
-                url = uri("$buildDir/maven")
-            }
+//            maven {
+//                name = "LocalMaven"
+//                url = uri("$buildDir/maven")
+//            }
             maven {
                 name = "GitHubPackages"
                 url = uri("https://maven.pkg.github.com/the-best-is-best/ComposeQuill")
@@ -86,10 +86,10 @@ afterEvaluate {
 
 
 }
-signing {
-    useGpgCmd()
-    sign(publishing.publications)
-}
+//signing {
+//    useGpgCmd()
+//    sign(publishing.publications)
+//}
 android {
     namespace = "com.tbib.ttextricheditor"
     compileSdk = 34
