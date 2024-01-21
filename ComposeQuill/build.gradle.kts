@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("plugin.serialization") version "1.9.22"
     id("maven-publish")
- //   id("signing")
+    //   id("signing")
 
 }
 
@@ -65,7 +65,14 @@ afterEvaluate {
         }
         repositories {
 
-
+            maven {
+                name = "OSSRH"
+                url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+                credentials {
+                    username = System.getenv("MAVEN_NAME")
+                    password = System.getenv("MAVEN_TOKEN")
+                }
+            }
 //            maven {
 //                name = "LocalMaven"
 //                url = uri("$buildDir/maven")
@@ -76,7 +83,7 @@ afterEvaluate {
                 credentials {
                     username = "the-best-is-best"
                     password =
-                        System.getenv("GITHUB_MAVEN")
+                        System.getenv("BUILD_MAVEN")
                 }
             }
 
@@ -91,7 +98,12 @@ afterEvaluate {
 //    sign(publishing.publications)
 //}
 android {
-    namespace = "com.tbib.ttextricheditor"
+    namespace = "com.tbib.composequill"
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
     compileSdk = 34
     buildFeatures {
         compose = true
