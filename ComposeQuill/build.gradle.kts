@@ -11,23 +11,14 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
-tasks.register<Zip>("aar") {
-    from("src/main") {
-        include("assets/**")
-        include("res/**")
-        include("AndroidManifest.xml")
-    }
-    from("build/intermediates/bundles/release") {
-        include("*.jar")
-    }
-    from("build/intermediates/library_assets/release") {
-        include("*.aar")
-    }
-    archiveFileName.set("Compose Quill.aar")
-}
+
 afterEvaluate {
+    tasks.withType<PublishToMavenLocal> {
+        // Make 'publishReleasePublicationToMavenLocal' depend on 'assembleRelease'
+        dependsOn("assembleRelease")
+    }
     publishing {
-        // Configure all publications
+
         publications.create<MavenPublication>("release") {
             groupId = "com.github.the-best-is-best"
             artifactId = "composequill"
