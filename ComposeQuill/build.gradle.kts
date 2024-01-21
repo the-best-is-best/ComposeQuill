@@ -29,11 +29,10 @@ afterEvaluate {
     publishing {
         // Configure all publications
         publications.create<MavenPublication>("release") {
-            groupId = "com.tbib"
+            groupId = "com.github.the-best-is-best"
             artifactId = "composequill"
-            version = "1.0.0-2-pre"
-            artifact(tasks["aar"])
-
+            version = "1.0.0-3-pre"
+            artifact("$buildDir/outputs/aar/ComposeQuill-release.aar")
             // Provide artifacts information required by Maven Central
             pom {
                 name.set("Compose Quill")
