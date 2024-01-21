@@ -65,27 +65,27 @@ afterEvaluate {
         }
         repositories {
 
-            maven {
-                name = "OSSRH"
-                url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
-                credentials {
-                    username = System.getenv("MAVEN_NAME")
-                    password = System.getenv("MAVEN_TOKEN")
-                }
-            }
+//            maven {
+//                name = "OSSRH"
+//                url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+//                credentials {
+//                    username = System.getenv("MAVEN_NAME")
+//                    password = System.getenv("MAVEN_TOKEN")
+//                }
+//            }
 //            maven {
 //                name = "LocalMaven"
 //                url = uri("$buildDir/maven")
 //            }
-            maven {
-                name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/the-best-is-best/ComposeQuill")
-                credentials {
-                    username = "the-best-is-best"
-                    password =
-                        System.getenv("BUILD_MAVEN")
-                }
-            }
+//            maven {
+//                name = "GitHubPackages"
+//                url = uri("https://maven.pkg.github.com/the-best-is-best/ComposeQuill")
+//                credentials {
+//                    username = "the-best-is-best"
+//                    password =
+//                        System.getenv("BUILD_MAVEN")
+//                }
+//            }
 
 
         }
