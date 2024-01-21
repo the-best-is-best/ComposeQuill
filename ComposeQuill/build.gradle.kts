@@ -31,7 +31,7 @@ afterEvaluate {
         publications.create<MavenPublication>("release") {
             groupId = "com.tbib"
             artifactId = "composequill"
-            version = "1.0.0-1-pre"
+            version = "1.0.0-2-pre"
             artifact(tasks["aar"])
 
             // Provide artifacts information required by Maven Central
@@ -77,15 +77,15 @@ afterEvaluate {
 //                name = "LocalMaven"
 //                url = uri("$buildDir/maven")
 //            }
-//            maven {
-//                name = "GitHubPackages"
-//                url = uri("https://maven.pkg.github.com/the-best-is-best/ComposeQuill")
-//                credentials {
-//                    username = "the-best-is-best"
-//                    password =
-//                        System.getenv("BUILD_MAVEN")
-//                }
-//            }
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/the-best-is-best/ComposeQuill")
+                credentials {
+                    username = "the-best-is-best"
+                    password =
+                        System.getenv("BUILD_MAVEN")
+                }
+            }
 
 
         }
