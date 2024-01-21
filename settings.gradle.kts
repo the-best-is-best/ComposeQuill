@@ -6,18 +6,12 @@ include(":ComposeQuill")
 
 
 pluginManagement {
+    enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
     repositories {
         google()
         mavenCentral()
         gradlePluginPortal()
-//        maven{
-//            url = uri("https://maven.pkg.github.com/the-best-is-best/AndroidTextRichEditor")
-//            credentials {
-//                username = "the-best-is-best"
-//                password =
-//                    "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"
-//            }
-//        }
     }
 }
 dependencyResolutionManagement {
@@ -25,10 +19,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url = uri("https://jitpack.io")
-        }
     }
+
 }
 
 rootProject.name = "example"

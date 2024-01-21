@@ -40,7 +40,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.7"
+        kotlinCompilerExtensionVersion = "1.5.8"
     }
     packaging {
         resources {
@@ -61,7 +61,7 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation(project(":ComposeQuill"))
 //    implementation("com.github.the-best-is-best:AndroidTextRichEditor:0.0.1")
-    implementation("com.github.the-best-is-best:composequill:1.0.0.pre")
+//    implementation("com.github.the-best-is-best:composequill:1.0.0-1-pre")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

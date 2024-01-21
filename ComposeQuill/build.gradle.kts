@@ -3,9 +3,14 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("plugin.serialization") version "1.9.22"
     id("maven-publish")
+    id("signing")
 
 }
-apply(plugin = "maven-publish")
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
 tasks.register<Zip>("aar") {
     from("src/main") {
         include("assets/**")
@@ -18,38 +23,72 @@ tasks.register<Zip>("aar") {
     from("build/intermediates/library_assets/release") {
         include("*.aar")
     }
-    archiveFileName.set("example.aar")
+    archiveFileName.set("Compose Quill.aar")
 }
+afterEvaluate {
+    publishing {
+        // Configure all publications
+        publications.create<MavenPublication>("release") {
+            groupId = "com.tbib"
+            artifactId = "composequill"
+            version = "1.0.0-1-pre"
+            artifact(tasks["aar"])
 
-publishing {
+            // Provide artifacts information required by Maven Central
+            pom {
+                name.set("Compose Quill")
+                description.set("A Compose library that provides a rich text editor support image or video.")
+                url.set("https://github.com/the-best-is-best/ComposeQuill")
 
-    publications.create<MavenPublication>("MavenPublication") {
-        groupId = "com.tbib"
-        artifactId = "composequill"
-        version = "1.0.0-1-pre"
-        artifact("$buildDir/outputs/aar/ComposeQuill-release.aar")
-
-    }
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/the-best-is-best/ComposeQuill")
-            credentials {
-                username = "the-best-is-best"
-                password =
-                    "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"
+                licenses {
+                    license {
+                        name.set("Apache-2.0")
+                        url.set("https://opensource.org/licenses/Apache-2.0")
+                    }
+                }
+                issueManagement {
+                    system.set("Github")
+                    url.set("https://github.com/the-best-is-best/ComposeQuill/issues")
+                }
+                scm {
+                    connection.set("https://github.com/the-best-is-best/ComposeQuill.git")
+                    url.set("https://github.com/the-best-is-best/ComposeQuill")
+                }
+                developers {
+                    developer {
+                        id.set("MichelleRaouf")
+                        name.set("Michelle Raouf")
+                        email.set("eng.michelle.raouf@gmail.com")
+                    }
+                }
             }
         }
+        repositories {
+
+
+            maven {
+                name = "LocalMaven"
+                url = uri("$buildDir/maven")
+            }
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/the-best-is-best/ComposeQuill")
+                credentials {
+                    username = "the-best-is-best"
+                    password =
+                        System.getenv("GITHUB_MAVEN")
+                }
+            }
+
+
+        }
     }
+
+
 }
-tasks.register<Zip>("generateRepo") {
-    val publishTask = tasks.named(
-        "publishReleasePublicationToMyrepoRepository",
-        PublishToMavenRepository::class.java
-    )
-    from(publishTask.map { it.repository.url })
-    into("mylibrary")
-    archiveFileName.set("mylibrary.zip")
+signing {
+    useGpgCmd()
+    sign(publishing.publications)
 }
 android {
     namespace = "com.tbib.ttextricheditor"
@@ -58,7 +97,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.7"
+        kotlinCompilerExtensionVersion = "1.5.8"
     }
     defaultConfig {
         minSdk = 21
