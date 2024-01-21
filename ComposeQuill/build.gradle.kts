@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("plugin.serialization") version "1.9.22"
     id("maven-publish")
-    id("signing")
+ //   id("signing")
 
 }
 
