@@ -26,21 +26,30 @@ publishing {
     publications.create<MavenPublication>("MavenPublication") {
         groupId = "com.tbib"
         artifactId = "composequill"
-        version = "1.0.0.pre"
-        // artifact("$buildDir/outputs/aar/tTextRichEditor-release.aar"
+        version = "1.0.0-1-pre"
+        artifact("$buildDir/outputs/aar/ComposeQuill-release.aar")
 
     }
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://github.com/the-best-is-best/ComposeQuill")
-//            credentials {
-//                username = "the-best-is-best"
-//                password =
-//                    "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"
-//            }
+            url = uri("https://maven.pkg.github.com/the-best-is-best/ComposeQuill")
+            credentials {
+                username = "the-best-is-best"
+                password =
+                    "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"
+            }
         }
     }
+}
+tasks.register<Zip>("generateRepo") {
+    val publishTask = tasks.named(
+        "publishReleasePublicationToMyrepoRepository",
+        PublishToMavenRepository::class.java
+    )
+    from(publishTask.map { it.repository.url })
+    into("mylibrary")
+    archiveFileName.set("mylibrary.zip")
 }
 android {
     namespace = "com.tbib.ttextricheditor"
