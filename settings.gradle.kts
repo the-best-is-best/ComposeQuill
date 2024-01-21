@@ -27,4 +27,4 @@ dependencyResolutionManagement {
 rootProject.name = "example"
 include(":app")
 //include(":tTextRichEditor")
-//include(":ComposeQuill")
+include(":ComposeQuill")
