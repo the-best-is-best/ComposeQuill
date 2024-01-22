@@ -22,10 +22,10 @@ afterEvaluate {
         // Make 'publishReleasePublicationToMavenLocal' depend on 'assembleRelease'
         dependsOn("assembleRelease")
     }
-    tasks.withType<PublishToMavenLocal> {
-        // Make 'publishReleasePublicationToMavenLocal' depend on 'assembleRelease'
-        dependsOn("jar")
-    }
+//    tasks.withType<PublishToMavenLocal> {
+//        // Make 'publishReleasePublicationToMavenLocal' depend on 'assembleRelease'
+//        dependsOn("jar")
+//    }
     publishing {
 
         publications.create<MavenPublication>("release") {
@@ -33,7 +33,7 @@ afterEvaluate {
             artifactId = "composequill"
             version = "1.0.0-3-pre"
             artifact("$buildDir/outputs/aar/ComposeQuill-release.aar")
-            artifact("$buildDir/libs/ComposeQuill-release.jar")
+//            artifact("$buildDir/libs/ComposeQuill-release.jar")
             // Provide artifacts information required by Maven Central
             pom {
                 name.set("Compose Quill")
