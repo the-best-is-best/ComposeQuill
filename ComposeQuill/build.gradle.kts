@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("plugin.serialization") version "1.9.22"
     id("maven-publish")
-    //   id("signing")
+
 
 }
 
@@ -11,11 +11,20 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
-
+tasks {
+    val jar by creating(Jar::class) {
+        archiveBaseName.set("ComposeQuill-release")
+        from(sourceSets.get().outputs)
+    }
+}
 afterEvaluate {
     tasks.withType<PublishToMavenLocal> {
         // Make 'publishReleasePublicationToMavenLocal' depend on 'assembleRelease'
         dependsOn("assembleRelease")
+    }
+    tasks.withType<PublishToMavenLocal> {
+        // Make 'publishReleasePublicationToMavenLocal' depend on 'assembleRelease'
+        dependsOn("jar")
     }
     publishing {
 
@@ -24,6 +33,7 @@ afterEvaluate {
             artifactId = "composequill"
             version = "1.0.0-2-pre"
             artifact("$buildDir/outputs/aar/ComposeQuill-release.aar")
+            artifact("$buildDir/libs/ComposeQuill-release.jar")
             // Provide artifacts information required by Maven Central
             pom {
                 name.set("Compose Quill")
@@ -63,10 +73,10 @@ afterEvaluate {
 //                    password = System.getenv("MAVEN_TOKEN")
 //                }
 //            }
-//            maven {
-//                name = "LocalMaven"
-//                url = uri("$buildDir/maven")
-//            }
+            maven {
+                name = "LocalMaven"
+                url = uri("$buildDir/maven")
+            }
             maven {
                 name = "GitHubPackages"
                 url = uri("https://maven.pkg.github.com/the-best-is-best/ComposeQuill")
@@ -128,21 +138,21 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+//    implementation("androidx.core:core-ktx:1.12.0")
+//    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")
-    implementation(platform("androidx.compose:compose-bom:2023.08.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
+//    implementation(platform("androidx.compose:compose-bom:2023.08.00"))
+//    implementation("androidx.compose.ui:ui")
+//    implementation("androidx.compose.ui:ui-graphics")
+//    implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("com.mohamedrejeb.richeditor:richeditor-compose:1.0.0-rc01")
-    implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
-
+//    implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
 
     implementation("androidx.compose.material:material-icons-extended:1.5.4")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
-    implementation("io.coil-kt:coil-compose:2.5.0")
+//    implementation("io.coil-kt:coil-compose:2.5.0")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

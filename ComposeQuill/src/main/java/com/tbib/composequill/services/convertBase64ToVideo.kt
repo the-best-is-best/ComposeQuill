@@ -6,10 +6,10 @@ import java.io.FileOutputStream
 import java.io.IOException
 
 
-internal suspend fun convertBase64ToVideo(
+internal fun convertBase64ToVideo(
     base64String: String,
     path: String,
-    callback: suspend (File) -> Unit
+    callback: (File) -> Unit
 ) {
 
     val decodedBytes = Base64.decode(base64String, Base64.DEFAULT)

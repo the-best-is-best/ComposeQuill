@@ -1,5 +1,7 @@
 package com.tbib.composequill.components
 
+import android.graphics.BitmapFactory
+import android.util.Base64
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -12,20 +14,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.mohamedrejeb.richeditor.model.RichTextState
+import com.tbib.composequill.states.QuillStates
 
 
 @Composable
 internal fun BuildQuillWithImage(
-    image: ImageBitmap?,
+
     maxHeight: Dp,
-    state: RichTextState,
+    state: QuillStates,
     readOnly: Boolean,
+    style: RichTextEditorStyle
 ) {
-    val height = if (image!!.height > 200) 200 else image.height
+    val decodedString = Base64.decode(state.image, Base64.DEFAULT)
+    val decodedBitmap =
+        BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+    val image = decodedBitmap.asImageBitmap()
+    val height = if (image.height > 200) 200 else image.height
 
     Box(
         modifier = Modifier
@@ -38,7 +45,7 @@ internal fun BuildQuillWithImage(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
-                QuillEditorBuilder(state, readOnly)
+                QuillEditorBuilder(style, state.textState, readOnly)
                 Image(
                     modifier = Modifier.height(height.dp),
                     bitmap = image,

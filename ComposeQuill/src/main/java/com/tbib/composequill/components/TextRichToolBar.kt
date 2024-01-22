@@ -42,9 +42,9 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.mohamedrejeb.richeditor.model.RichTextState
-import com.tbib.composequill.QuillViewModel
+import com.tbib.composequill.states.QuillStates
 
+//
 data class TextRichToolBarStyle(
     val modifier: Modifier = Modifier,
     val iconColor: Color? = null,
@@ -57,13 +57,13 @@ data class TextRichToolBarStyle(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun TextRichToolBar(
-    viewModel: QuillViewModel,
-    state: RichTextState,
+    state: QuillStates,
     onChange: () -> Unit,
     style: TextRichToolBarStyle = TextRichToolBarStyle()
 
 
 ) {
+
     val context = LocalContext.current
     val activity = context as Activity
     val myImagePicker = rememberLauncherForActivityResult(
@@ -77,7 +77,7 @@ internal fun TextRichToolBar(
                 if (it.moveToFirst()) {
                     val pathIndex = it.getColumnIndex(MediaStore.Images.Media.DATA)
                     val path = it.getString(pathIndex)
-                    viewModel.addImage(path)
+                    state.addImage(path)
                     onChange()
                 }
             }
@@ -103,7 +103,7 @@ internal fun TextRichToolBar(
                 if (it.moveToFirst()) {
                     val pathIndex = it.getColumnIndex(MediaStore.Video.Media.DATA)
                     path.value = it.getString(pathIndex)
-                    viewModel.addVideo(path.value)
+                    state.addVideo(path.value)
                     onChange()
 
 
@@ -111,12 +111,16 @@ internal fun TextRichToolBar(
             }
         }
     }
-
+//    LaunchedEffect(state.video ){
+//        delay(1000)
+//        state.addVideo(path.value)
+//
+//    }
     FlowRow(modifier = style.modifier, horizontalArrangement = Arrangement.Center) {
 
         RichTextStyleButton(
             onClick = {
-                state.addParagraphStyle(
+                state.textState.addParagraphStyle(
                     ParagraphStyle(
                         textAlign = TextAlign.Left,
                     )
@@ -126,13 +130,13 @@ internal fun TextRichToolBar(
             iconColor = style.iconColor,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
-            isSelected = state.currentParagraphStyle.textAlign == TextAlign.Left,
+            isSelected = state.textState.currentParagraphStyle.textAlign == TextAlign.Left,
             icon = Icons.Outlined.FormatAlignLeft
         )
 
         RichTextStyleButton(
             onClick = {
-                state.addParagraphStyle(
+                state.textState.addParagraphStyle(
                     ParagraphStyle(
                         textAlign = TextAlign.Center
                     )
@@ -142,12 +146,12 @@ internal fun TextRichToolBar(
             iconColor = style.iconColor,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
-            isSelected = state.currentParagraphStyle.textAlign == TextAlign.Center,
+            isSelected = state.textState.currentParagraphStyle.textAlign == TextAlign.Center,
             icon = Icons.Outlined.FormatAlignCenter
         )
         RichTextStyleButton(
             onClick = {
-                state.addParagraphStyle(
+                state.textState.addParagraphStyle(
                     ParagraphStyle(
                         textAlign = TextAlign.Right
                     )
@@ -156,13 +160,13 @@ internal fun TextRichToolBar(
             iconColor = style.iconColor,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
-            isSelected = state.currentParagraphStyle.textAlign == TextAlign.Right,
+            isSelected = state.textState.currentParagraphStyle.textAlign == TextAlign.Right,
             icon = Icons.Outlined.FormatAlignRight
         )
 
         RichTextStyleButton(
             onClick = {
-                state.toggleSpanStyle(
+                state.textState.toggleSpanStyle(
                     SpanStyle(
                         fontWeight = FontWeight.Bold
                     )
@@ -171,13 +175,13 @@ internal fun TextRichToolBar(
             iconColor = style.iconColor,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
-            isSelected = state.currentSpanStyle.fontWeight == FontWeight.Bold,
+            isSelected = state.textState.currentSpanStyle.fontWeight == FontWeight.Bold,
             icon = Icons.Outlined.FormatBold
         )
 
         RichTextStyleButton(
             onClick = {
-                state.toggleSpanStyle(
+                state.textState.toggleSpanStyle(
                     SpanStyle(
                         fontStyle = FontStyle.Italic
                     )
@@ -186,13 +190,13 @@ internal fun TextRichToolBar(
             iconColor = style.iconColor,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
-            isSelected = state.currentSpanStyle.fontStyle == FontStyle.Italic,
+            isSelected = state.textState.currentSpanStyle.fontStyle == FontStyle.Italic,
             icon = Icons.Outlined.FormatItalic
         )
 
         RichTextStyleButton(
             onClick = {
-                state.toggleSpanStyle(
+                state.textState.toggleSpanStyle(
                     SpanStyle(
                         textDecoration = TextDecoration.Underline
                     )
@@ -201,13 +205,13 @@ internal fun TextRichToolBar(
             iconColor = style.iconColor,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
-            isSelected = state.currentSpanStyle.textDecoration?.contains(TextDecoration.Underline) == true,
+            isSelected = state.textState.currentSpanStyle.textDecoration?.contains(TextDecoration.Underline) == true,
             icon = Icons.Outlined.FormatUnderlined
         )
 
         RichTextStyleButton(
             onClick = {
-                state.toggleSpanStyle(
+                state.textState.toggleSpanStyle(
                     SpanStyle(
                         textDecoration = TextDecoration.LineThrough
                     )
@@ -216,13 +220,13 @@ internal fun TextRichToolBar(
             iconColor = style.iconColor,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
-            isSelected = state.currentSpanStyle.textDecoration?.contains(TextDecoration.LineThrough) == true,
+            isSelected = state.textState.currentSpanStyle.textDecoration?.contains(TextDecoration.LineThrough) == true,
             icon = Icons.Outlined.FormatStrikethrough
         )
 
         RichTextStyleButton(
             onClick = {
-                state.toggleSpanStyle(
+                state.textState.toggleSpanStyle(
                     SpanStyle(
                         fontSize = 28.sp
                     )
@@ -231,7 +235,7 @@ internal fun TextRichToolBar(
             iconColor = style.iconColor,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
-            isSelected = state.currentSpanStyle.fontSize == 28.sp,
+            isSelected = state.textState.currentSpanStyle.fontSize == 28.sp,
             icon = Icons.Outlined.FormatSize
         )
 //        RichTextStyleButton(
@@ -268,9 +272,9 @@ internal fun TextRichToolBar(
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
             onClick = {
-                state.toggleUnorderedList()
+                state.textState.toggleUnorderedList()
             },
-            isSelected = state.isUnorderedList,
+            isSelected = state.textState.isUnorderedList,
             icon = Icons.Outlined.FormatListBulleted,
         )
 
@@ -279,10 +283,10 @@ internal fun TextRichToolBar(
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
             onClick = {
-                state.toggleOrderedList()
+                state.textState.toggleOrderedList()
 
             },
-            isSelected = state.isOrderedList,
+            isSelected = state.textState.isOrderedList,
             icon = Icons.Outlined.FormatListNumbered,
         )
         RichTextStyleButton(
@@ -290,9 +294,9 @@ internal fun TextRichToolBar(
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
             onClick = {
-                state.toggleCodeSpan()
+                state.textState.toggleCodeSpan()
             },
-            isSelected = state.isCodeSpan,
+            isSelected = state.textState.isCodeSpan,
             icon = Icons.Outlined.Code,
         )
         RichTextStyleButton(

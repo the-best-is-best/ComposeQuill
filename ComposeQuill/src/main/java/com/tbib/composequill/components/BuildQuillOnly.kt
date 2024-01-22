@@ -14,6 +14,7 @@ internal fun BuildQuillOnly(
     maxHeight: Dp,
     state: RichTextState,
     readOnly: Boolean,
+    style: RichTextEditorStyle
 ) {
 
     LazyColumn(
@@ -22,7 +23,7 @@ internal fun BuildQuillOnly(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
-            QuillEditorBuilder(state, readOnly)
+            QuillEditorBuilder(style, state, readOnly)
         }
     }
 
