@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("plugin.serialization") version "1.9.22"
     id("maven-publish")
+//    id("signing")
 
 
 }
@@ -29,9 +30,9 @@ afterEvaluate {
     publishing {
 
         publications.create<MavenPublication>("release") {
-            groupId = "com.github.the-best-is-best"
+            groupId = "io.github.the-best-is-best"
             artifactId = "composequill"
-            version = "1.0.0-3-pre"
+            version = "1.0.0-4-pre"
             artifact("$buildDir/outputs/aar/ComposeQuill-release.aar")
 //            artifact("$buildDir/libs/ComposeQuill-release.jar")
             // Provide artifacts information required by Maven Central
@@ -77,15 +78,15 @@ afterEvaluate {
 //                name = "LocalMaven"
 //                url = uri("$buildDir/maven")
 //            }
-            maven {
-                name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/the-best-is-best/ComposeQuill")
-                credentials {
-                    username = "the-best-is-best"
-                    password =
-                        System.getenv("BUILD_MAVEN")
-                }
-            }
+//            maven {
+//                name = "GitHubPackages"
+//                url = uri("https://maven.pkg.github.com/the-best-is-best/ComposeQuill")
+//                credentials {
+//                    username = "the-best-is-best"
+//                    password =
+//                        System.getenv("BUILD_MAVEN")
+//                }
+//            }
 
 
         }
