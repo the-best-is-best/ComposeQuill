@@ -32,7 +32,7 @@ afterEvaluate {
         publications.create<MavenPublication>("release") {
             groupId = "io.github.the-best-is-best"
             artifactId = "composequill"
-            version = "1.0.0-4-pre"
+            version = "1.0.0-5-pre"
             artifact("$buildDir/outputs/aar/ComposeQuill-release.aar")
 //            artifact("$buildDir/libs/ComposeQuill-release.jar")
             // Provide artifacts information required by Maven Central
