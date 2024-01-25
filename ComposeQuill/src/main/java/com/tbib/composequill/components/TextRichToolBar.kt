@@ -49,7 +49,7 @@ data class TextRichToolBarStyle(
     val modifier: Modifier = Modifier,
     val iconColor: Color? = null,
     val selectedIconBackgroundColor: Color? = null,
-    val iconSelectedColor: Color? = null
+    val iconSelectedColor: Color? = Color.White
 
 )
 

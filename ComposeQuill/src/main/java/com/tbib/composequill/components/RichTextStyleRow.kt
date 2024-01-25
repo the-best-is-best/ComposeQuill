@@ -3,7 +3,10 @@ package com.tbib.composequill.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
@@ -38,7 +41,7 @@ internal fun RichTextStyleButton(
         Icon(
             icon,
             contentDescription = icon.name,
-            tint = iconColor ?: LocalContentColor.current,
+          //  tint = iconColor ?: LocalContentColor.current,
             modifier = Modifier
                 .background(
                     color = if (isSelected) {
