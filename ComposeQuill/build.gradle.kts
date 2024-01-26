@@ -3,41 +3,31 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("plugin.serialization") version "1.9.22"
     id("maven-publish")
-
-    // id("signing")
-
-
+    id("signing")
+    // id ("com.vanniktech.maven.publish") version "0.27.0"
 }
 apply(plugin = "maven-publish")
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
-}
-//tasks {
-//    val jar by creating(Jar::class) {
-//        archiveBaseName.set("ComposeQuill-release")
-//        from(sourceSets.get().outputs)
-//    }
-//}
 
+
+}
 
 afterEvaluate {
     tasks.withType<PublishToMavenLocal> {
         // Make 'publishReleasePublicationToMavenLocal' depend on 'assembleRelease'
         dependsOn("assembleRelease")
     }
-//    tasks.withType<PublishToMavenLocal> {
-//        // Make 'publishReleasePublicationToMavenLocal' depend on 'assembleRelease'
-//        dependsOn("jar")
-//    }
     publishing {
 
         publications.create<MavenPublication>("release") {
             groupId = "io.github.the-best-is-best"
             artifactId = "composequill"
-            version = "1.0.0-6.pre"
+            version = "1.0.0-rc2"
             from(components["release"])
+
 
 
             //  artifact("$buildDir/outputs/aar/ComposeQuill-release.aar")
@@ -47,23 +37,6 @@ afterEvaluate {
                 name.set("Compose Quill")
                 description.set("A Compose library that provides a rich text editor support image or video.")
                 url.set("https://github.com/the-best-is-best/ComposeQuill")
-//                withXml {
-//                    val dependenciesNode = asNode().appendNode("dependencies")
-//                    project.configurations.getByName("releaseImplementation").dependencies.forEach {
-//                        val dependencyNode = dependenciesNode.appendNode("dependency")
-//                        dependencyNode.appendNode("groupId", it.group)
-//                        dependencyNode.appendNode("artifactId", it.name)
-//                        dependencyNode.appendNode("version", it.version)
-//                    }
-//                }
-//                configurations{
-//
-//                    getByName("releaseImplementation") {
-//                        extendsFrom(configurations.implementation.get())
-//                        isCanBeResolved = true
-//                    }
-//                }
-
                 licenses {
                     license {
                         name.set("Apache-2.0")
@@ -89,26 +62,26 @@ afterEvaluate {
         }
         repositories {
 
-//            maven {
-//                name = "OSSRH-snapshots"
-//                url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-//                credentials {
-//                    username = System.getenv("MAVEN_NAME")
-//                    password = System.getenv("MAVEN_TOKEN")
-//                }
+            maven {
+                name = "OSSRH-snapshots"
+                url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+                credentials {
+                    username = "the-best-is-best"
+                    password = "Mesho@5005153171997"
+                }
 //            }
 //            maven {
 //                name = "LocalMaven"
 //                url = uri("$buildDir/maven")
-//            }
-            maven {
-                name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/the-best-is-best/ComposeQuill")
-                credentials {
-                    username = "the-best-is-best"
-                    password =
-                        System.getenv("BUILD_MAVEN")
-                }
+                //   }
+//            maven {
+//                name = "GitHubPackages"
+//                url = uri("https://maven.pkg.github.com/the-best-is-best/ComposeQuill")
+//                credentials {
+//                    username = "the-best-is-best"
+//                    password =
+//                        System.getenv("BUILD_MAVEN")
+//                }
             }
 
 
@@ -117,17 +90,15 @@ afterEvaluate {
     }
 
 }
-//signing {
-//    useGpgCmd()
-//    sign(publishing.publications)
-//}
+
+
+signing {
+    useGpgCmd()
+    sign(publishing.publications)
+}
 android {
     namespace = "com.tbib.composequill"
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-        }
-    }
+
     compileSdk = 34
     buildFeatures {
         compose = true
@@ -161,25 +132,16 @@ android {
 }
 
 dependencies {
-    implementation("org.jetbrains.skiko:skiko:0.7.85.4")
-    //    implementation("androidx.core:core-ktx:1.12.0")
-//    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")
-    implementation(platform("androidx.compose:compose-bom:2023.10.01"))
-//    implementation("androidx.compose.ui:ui")
-//    implementation("androidx.compose.ui:ui-graphics")
-//    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation(platform("androidx.compose:compose-bom:2024.01.00"))
     implementation("androidx.compose.material3:material3")
-//    implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
     implementation("com.mohamedrejeb.richeditor:richeditor-compose:1.0.0-rc01")
-    implementation("androidx.compose.material:material-icons-extended:1.5.4")
+    implementation("androidx.compose.material:material-icons-extended:1.6.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
-//    implementation("io.coil-kt:coil-compose:2.5.0")
-
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2023.10.01"))
+    androidTestImplementation(platform("androidx.compose:compose-bom:2024.01.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")

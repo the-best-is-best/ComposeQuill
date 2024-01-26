@@ -1,4 +1,4 @@
-package com.tbib.composequill
+package io.tbib.composequill
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.tween
@@ -17,17 +17,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
-import com.tbib.composequill.components.BuildQuillOnly
-import com.tbib.composequill.components.BuildQuillWithImage
-import com.tbib.composequill.components.BuildQuillWithVideo
-import com.tbib.composequill.components.RichTextEditorStyle
-import com.tbib.composequill.components.TextRichToolBar
-import com.tbib.composequill.components.TextRichToolBarStyle
-import com.tbib.composequill.enum.QuillType
-import com.tbib.composequill.models.QuillParser
-import com.tbib.composequill.services.rememberImeState
-import com.tbib.composequill.states.QuillStates
-import com.tbib.composequill.states.rememberQuillStates
+import io.tbib.composequill.components.BuildQuillOnly
+import io.tbib.composequill.components.BuildQuillWithImage
+import io.tbib.composequill.components.BuildQuillWithVideo
+import io.tbib.composequill.components.RichTextEditorStyle
+import io.tbib.composequill.components.TextRichToolBar
+import io.tbib.composequill.components.TextRichToolBarStyle
+import io.tbib.composequill.enum.QuillType
+import io.tbib.composequill.models.QuillParser
+import io.tbib.composequill.services.rememberImeState
+import io.tbib.composequill.states.QuillStates
+import io.tbib.composequill.states.rememberQuillStates
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -36,6 +36,7 @@ data class QuillStyle(
 
 )
 
+@JvmOverloads
 @SuppressLint("RememberReturnType", "StateFlowValueCalledInComposition")
 @Composable
 fun QuillEditor(

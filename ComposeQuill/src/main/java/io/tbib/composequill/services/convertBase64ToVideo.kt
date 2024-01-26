@@ -1,4 +1,4 @@
-package com.tbib.composequill.services
+package io.tbib.composequill.services
 
 import android.util.Base64
 import java.io.File

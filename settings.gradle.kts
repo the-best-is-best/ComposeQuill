@@ -20,8 +20,15 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-     //   mavenLocal()
-        // maven(url = "https://jitpack.io")
+        //   mavenLocal()
+        // maven ( url = "https://s01.oss.sonatype.org/content/repositories/snapshots/")
+
+    }
+
+    versionCatalogs {
+        create("libsx") {
+            from(files("./gradle/libs.versions.toml"))
+        }
     }
 
 

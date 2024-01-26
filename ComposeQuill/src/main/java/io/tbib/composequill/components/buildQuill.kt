@@ -1,4 +1,4 @@
-package com.tbib.composequill.components
+package io.tbib.composequill.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.interaction.MutableInteractionSource

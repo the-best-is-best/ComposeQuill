@@ -1,4 +1,4 @@
-package com.tbib.composequill.components
+package io.tbib.composequill.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
@@ -41,7 +41,7 @@ internal fun RichTextStyleButton(
         Icon(
             icon,
             contentDescription = icon.name,
-          //  tint = iconColor ?: LocalContentColor.current,
+            //  tint = iconColor ?: LocalContentColor.current,
             modifier = Modifier
                 .background(
                     color = if (isSelected) {

@@ -1,4 +1,4 @@
-package com.tbib.composequill.components
+package io.tbib.composequill.components
 
 import android.graphics.BitmapFactory
 import android.util.Base64
@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.tbib.composequill.states.QuillStates
+import io.tbib.composequill.states.QuillStates
 
 
 @Composable

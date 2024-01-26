@@ -1,4 +1,4 @@
-package com.tbib.composequill.components
+package io.tbib.composequill.components
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -14,13 +14,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.FormatAlignLeft
+import androidx.compose.material.icons.automirrored.outlined.FormatAlignRight
+import androidx.compose.material.icons.automirrored.outlined.FormatListBulleted
 import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.FormatAlignCenter
-import androidx.compose.material.icons.outlined.FormatAlignLeft
-import androidx.compose.material.icons.outlined.FormatAlignRight
 import androidx.compose.material.icons.outlined.FormatBold
 import androidx.compose.material.icons.outlined.FormatItalic
-import androidx.compose.material.icons.outlined.FormatListBulleted
 import androidx.compose.material.icons.outlined.FormatListNumbered
 import androidx.compose.material.icons.outlined.FormatSize
 import androidx.compose.material.icons.outlined.FormatStrikethrough
@@ -42,7 +42,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.tbib.composequill.states.QuillStates
+import io.tbib.composequill.states.QuillStates
 
 //
 data class TextRichToolBarStyle(
@@ -131,7 +131,7 @@ internal fun TextRichToolBar(
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
             isSelected = state.textState.currentParagraphStyle.textAlign == TextAlign.Left,
-            icon = Icons.Outlined.FormatAlignLeft
+            icon = Icons.AutoMirrored.Outlined.FormatAlignLeft
         )
 
         RichTextStyleButton(
@@ -161,7 +161,7 @@ internal fun TextRichToolBar(
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
             isSelected = state.textState.currentParagraphStyle.textAlign == TextAlign.Right,
-            icon = Icons.Outlined.FormatAlignRight
+            icon = Icons.AutoMirrored.Outlined.FormatAlignRight
         )
 
         RichTextStyleButton(
@@ -262,7 +262,7 @@ internal fun TextRichToolBar(
 //                )
 //            },
 //            isSelected = state.currentSpanStyle.background == Color.Yellow,
-//            icon = Icons.Outlined.Circle,
+//            icon = Icons.AutoMirrored.Outlined.Circle,
 //            iconColor = style.iconColor,
 //            selectedIconBackgroundColor = style.selectedIconBackgroundColor,
 //            iconSelectedColor = style.iconSelectedColor,
@@ -275,7 +275,7 @@ internal fun TextRichToolBar(
                 state.textState.toggleUnorderedList()
             },
             isSelected = state.textState.isUnorderedList,
-            icon = Icons.Outlined.FormatListBulleted,
+            icon = Icons.AutoMirrored.Outlined.FormatListBulleted,
         )
 
         RichTextStyleButton(

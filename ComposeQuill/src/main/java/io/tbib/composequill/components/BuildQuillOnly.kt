@@ -1,4 +1,4 @@
-package com.tbib.composequill.components
+package io.tbib.composequill.components
 
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.lazy.LazyColumn

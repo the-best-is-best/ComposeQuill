@@ -1,6 +1,6 @@
-package com.tbib.composequill.models
+package io.tbib.composequill.models
 
-import com.tbib.composequill.enum.QuillType
+import io.tbib.composequill.enum.QuillType
 import kotlinx.serialization.Serializable
 
 @Serializable

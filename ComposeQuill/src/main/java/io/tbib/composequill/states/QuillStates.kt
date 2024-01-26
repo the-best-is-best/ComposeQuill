@@ -1,6 +1,5 @@
-package com.tbib.composequill.states
+package io.tbib.composequill.states
 
-import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -9,9 +8,9 @@ import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.mohamedrejeb.richeditor.model.RichTextState
-import com.tbib.composequill.enum.QuillType
-import com.tbib.composequill.models.QuillParser
-import com.tbib.composequill.services.convertFileToBase64
+import io.tbib.composequill.enum.QuillType
+import io.tbib.composequill.models.QuillParser
+import io.tbib.composequill.services.convertFileToBase64
 import kotlinx.serialization.json.Json
 
 @Composable
@@ -75,7 +74,6 @@ class QuillStates internal constructor(
 
     }
 
-    @SuppressLint("SuspiciousIndentation")
     fun addVideo(newVideo: String) {
         if (newVideo.isEmpty()) return
         if (convertFileToBase64(newVideo) == video) return

@@ -1,4 +1,4 @@
-package com.tbib.composequill.components
+package io.tbib.composequill.components
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
@@ -31,8 +31,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.net.toUri
-import com.tbib.composequill.services.convertBase64ToVideo
-import com.tbib.composequill.states.QuillStates
+import io.tbib.composequill.services.convertBase64ToVideo
+import io.tbib.composequill.states.QuillStates
 import kotlinx.coroutines.delay
 import java.io.File
 
