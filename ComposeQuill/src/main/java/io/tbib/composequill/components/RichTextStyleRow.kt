@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun RichTextStyleButton(
+internal fun QillEditorStyleButton(
     onClick: () -> Unit,
     icon: ImageVector,
     iconColor: Color? = null,

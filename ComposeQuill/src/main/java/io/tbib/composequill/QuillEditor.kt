@@ -21,8 +21,8 @@ import io.tbib.composequill.components.BuildQuillOnly
 import io.tbib.composequill.components.BuildQuillWithImage
 import io.tbib.composequill.components.BuildQuillWithVideo
 import io.tbib.composequill.components.QuillEditorStyle
+import io.tbib.composequill.components.QuillEditorToolBar
 import io.tbib.composequill.components.QuillEditorToolBarStyle
-import io.tbib.composequill.components.TextRichToolBar
 import io.tbib.composequill.enum.QuillType
 import io.tbib.composequill.models.QuillParser
 import io.tbib.composequill.services.rememberImeState
@@ -46,7 +46,9 @@ fun QuillEditor(
     readOnly: Boolean = false,
     onChange: (value: String) -> Unit,
     quillEditorToolBarStyle: QuillEditorToolBarStyle = QuillEditorToolBarStyle(),
-    quillStates: QuillStates = rememberQuillStates()
+    quillStates: QuillStates = rememberQuillStates(),
+    showImagePicker: Boolean = true,
+    showVideoPicker: Boolean = true
 ) {
     val imeState = rememberImeState()
     val scrollState = rememberScrollState()
@@ -79,7 +81,9 @@ fun QuillEditor(
                 ), horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (!readOnly) {
-                TextRichToolBar(
+                QuillEditorToolBar(
+                    showImagePicker,
+                    showVideoPicker,
                     quillStates, onChange = {
                         onChange(
                             toJson(

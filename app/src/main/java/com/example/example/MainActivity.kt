@@ -51,6 +51,8 @@ class MainActivity : ComponentActivity() {
                                 iconColor = Color.Black,
                                 iconSelectedColor = Color.White,
                             ),
+                            showImagePicker = false,
+                            showVideoPicker = true,
                             quillEditorStyle = QuillEditorStyle(),
                             quillStates = quillStates,
                             onChange = {

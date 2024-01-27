@@ -26,7 +26,7 @@ Compose-Rich-Editor </a>
 Compose Quill is available on `mavenCentral()`.
 
 ```kotlin
-implementation("io.github.the-best-is-best:composequill:1.0.0-rc2")
+implementation("io.github.the-best-is-best:composequill:1.0.0-rc3")
 ```
 
 ## How to use
@@ -37,18 +37,18 @@ QuillEditor(
         .padding(0.dp)
         .background(Color.White),
     quillStates = quillStates,
-    textRichToolBarStyle = TextRichToolBarStyle(
-        iconColor = Color.Black,
-        iconSelectedColor = Color.White,
+  textRichToolBarStyle = TextRichToolBarStyle(
+    iconColor = Color.Black,
+    iconSelectedColor = Color.White,
 
-        ),
+    ),
 
-    onChange = {
-        Log.d("QuillEditor", "onCreate: $it")
-    })
+  onChange = {
+    Log.d("QuillEditor", "onCreate: $it")
+  })
 ```
-<pr></pr>
-<pr></pr>
+
+<br></br>
 
 ### Setup
 
@@ -67,9 +67,8 @@ quillStates.sendData(json)
 ```
 
 note json get it from onChange
-<pr></pr>
-<pr></pr>
-<pr></pr>
+
+<br></br>
 
 ### Style
 
@@ -87,7 +86,12 @@ use it for editor tool style
 
 #### onChange
 
-to recive json to save it
+to receive json to save it
 
-####  
+<br></br>
+
+#### Features
+
+- Can make `showImagePicker` = Boolean ,
+  `showVideoPicker` = Boolean,
 

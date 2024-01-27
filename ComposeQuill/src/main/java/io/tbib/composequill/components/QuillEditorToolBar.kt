@@ -56,7 +56,9 @@ data class QuillEditorToolBarStyle(
 @SuppressLint("StateFlowValueCalledInComposition", "Recycle")
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-internal fun TextRichToolBar(
+internal fun QuillEditorToolBar(
+    showImagePicker: Boolean,
+    showVideoPicker: Boolean,
     state: QuillStates,
     onChange: () -> Unit,
     style: QuillEditorToolBarStyle = QuillEditorToolBarStyle()
@@ -118,7 +120,7 @@ internal fun TextRichToolBar(
 //    }
     FlowRow(modifier = style.modifier, horizontalArrangement = Arrangement.Center) {
 
-        RichTextStyleButton(
+        QillEditorStyleButton(
             onClick = {
                 state.textState.addParagraphStyle(
                     ParagraphStyle(
@@ -134,7 +136,7 @@ internal fun TextRichToolBar(
             icon = Icons.AutoMirrored.Outlined.FormatAlignLeft
         )
 
-        RichTextStyleButton(
+        QillEditorStyleButton(
             onClick = {
                 state.textState.addParagraphStyle(
                     ParagraphStyle(
@@ -149,7 +151,7 @@ internal fun TextRichToolBar(
             isSelected = state.textState.currentParagraphStyle.textAlign == TextAlign.Center,
             icon = Icons.Outlined.FormatAlignCenter
         )
-        RichTextStyleButton(
+        QillEditorStyleButton(
             onClick = {
                 state.textState.addParagraphStyle(
                     ParagraphStyle(
@@ -164,7 +166,7 @@ internal fun TextRichToolBar(
             icon = Icons.AutoMirrored.Outlined.FormatAlignRight
         )
 
-        RichTextStyleButton(
+        QillEditorStyleButton(
             onClick = {
                 state.textState.toggleSpanStyle(
                     SpanStyle(
@@ -179,7 +181,7 @@ internal fun TextRichToolBar(
             icon = Icons.Outlined.FormatBold
         )
 
-        RichTextStyleButton(
+        QillEditorStyleButton(
             onClick = {
                 state.textState.toggleSpanStyle(
                     SpanStyle(
@@ -194,7 +196,7 @@ internal fun TextRichToolBar(
             icon = Icons.Outlined.FormatItalic
         )
 
-        RichTextStyleButton(
+        QillEditorStyleButton(
             onClick = {
                 state.textState.toggleSpanStyle(
                     SpanStyle(
@@ -209,7 +211,7 @@ internal fun TextRichToolBar(
             icon = Icons.Outlined.FormatUnderlined
         )
 
-        RichTextStyleButton(
+        QillEditorStyleButton(
             onClick = {
                 state.textState.toggleSpanStyle(
                     SpanStyle(
@@ -224,7 +226,7 @@ internal fun TextRichToolBar(
             icon = Icons.Outlined.FormatStrikethrough
         )
 
-        RichTextStyleButton(
+        QillEditorStyleButton(
             onClick = {
                 state.textState.toggleSpanStyle(
                     SpanStyle(
@@ -267,7 +269,7 @@ internal fun TextRichToolBar(
 //            selectedIconBackgroundColor = style.selectedIconBackgroundColor,
 //            iconSelectedColor = style.iconSelectedColor,
 //            )
-        RichTextStyleButton(
+        QillEditorStyleButton(
             iconColor = style.iconColor,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
@@ -278,7 +280,7 @@ internal fun TextRichToolBar(
             icon = Icons.AutoMirrored.Outlined.FormatListBulleted,
         )
 
-        RichTextStyleButton(
+        QillEditorStyleButton(
             iconColor = style.iconColor,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
@@ -289,7 +291,7 @@ internal fun TextRichToolBar(
             isSelected = state.textState.isOrderedList,
             icon = Icons.Outlined.FormatListNumbered,
         )
-        RichTextStyleButton(
+        QillEditorStyleButton(
             iconColor = style.iconColor,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
@@ -299,48 +301,49 @@ internal fun TextRichToolBar(
             isSelected = state.textState.isCodeSpan,
             icon = Icons.Outlined.Code,
         )
-        RichTextStyleButton(
-            iconColor = style.iconColor,
-            selectedIconBackgroundColor = style.selectedIconBackgroundColor,
-            iconSelectedColor = style.iconSelectedColor,
-            onClick = {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+        if (showImagePicker)
+            QillEditorStyleButton(
+                iconColor = style.iconColor,
+                selectedIconBackgroundColor = style.selectedIconBackgroundColor,
+                iconSelectedColor = style.iconSelectedColor,
+                onClick = {
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
 
-                    val permission = Manifest.permission.READ_EXTERNAL_STORAGE
-                    if (ContextCompat.checkSelfPermission(
-                            context,
-                            permission
-                        ) != PackageManager.PERMISSION_GRANTED
-                    ) {
-                        ActivityCompat.requestPermissions(activity, arrayOf(permission), 123)
+                        val permission = Manifest.permission.READ_EXTERNAL_STORAGE
+                        if (ContextCompat.checkSelfPermission(
+                                context,
+                                permission
+                            ) != PackageManager.PERMISSION_GRANTED
+                        ) {
+                            ActivityCompat.requestPermissions(activity, arrayOf(permission), 123)
+                        } else {
+                            myImagePicker.launch("image/png")
+                        }
                     } else {
                         myImagePicker.launch("image/png")
                     }
-                } else {
-                    myImagePicker.launch("image/png")
-                }
-            },
-            icon = Icons.Outlined.Image
-        )
+                },
+                icon = Icons.Outlined.Image
+            )
+        if (showVideoPicker)
+            QillEditorStyleButton(
+                iconColor = style.iconColor,
+                selectedIconBackgroundColor = style.selectedIconBackgroundColor,
+                iconSelectedColor = style.iconSelectedColor,
+                onClick = {
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
 
-        RichTextStyleButton(
-            iconColor = style.iconColor,
-            selectedIconBackgroundColor = style.selectedIconBackgroundColor,
-            iconSelectedColor = style.iconSelectedColor,
-            onClick = {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-
-                    val permission = Manifest.permission.READ_EXTERNAL_STORAGE
-                    if (ContextCompat.checkSelfPermission(
-                            context,
-                            permission
-                        ) != PackageManager.PERMISSION_GRANTED
-                    ) {
-                        ActivityCompat.requestPermissions(activity, arrayOf(permission), 123)
+                        val permission = Manifest.permission.READ_EXTERNAL_STORAGE
+                        if (ContextCompat.checkSelfPermission(
+                                context,
+                                permission
+                            ) != PackageManager.PERMISSION_GRANTED
+                        ) {
+                            ActivityCompat.requestPermissions(activity, arrayOf(permission), 123)
+                        } else {
+                            myVideoPicker.launch("video/mp4")
+                        }
                     } else {
-                        myVideoPicker.launch("video/mp4")
-                    }
-                } else {
                     myVideoPicker.launch("video/mp4")
                 }
             },
