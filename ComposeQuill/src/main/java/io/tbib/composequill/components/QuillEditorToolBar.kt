@@ -17,19 +17,21 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.FormatAlignLeft
 import androidx.compose.material.icons.automirrored.outlined.FormatAlignRight
 import androidx.compose.material.icons.automirrored.outlined.FormatListBulleted
+import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.FormatAlignCenter
 import androidx.compose.material.icons.outlined.FormatBold
 import androidx.compose.material.icons.outlined.FormatItalic
 import androidx.compose.material.icons.outlined.FormatListNumbered
-import androidx.compose.material.icons.outlined.FormatSize
 import androidx.compose.material.icons.outlined.FormatStrikethrough
 import androidx.compose.material.icons.outlined.FormatUnderlined
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.outlined.VideoLibrary
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -39,9 +41,9 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 import io.tbib.composequill.states.QuillStates
 
 //
@@ -61,7 +63,8 @@ internal fun QuillEditorToolBar(
     showVideoPicker: Boolean,
     state: QuillStates,
     onChange: () -> Unit,
-    style: QuillEditorToolBarStyle = QuillEditorToolBarStyle()
+    style: QuillEditorToolBarStyle = QuillEditorToolBarStyle(),
+    colorPickerDialogStyle: ColorPickerDialogStyle = ColorPickerDialogStyle()
 
 
 ) {
@@ -118,6 +121,38 @@ internal fun QuillEditorToolBar(
 //        state.addVideo(path.value)
 //
 //    }
+    val controller = rememberColorPickerController()
+
+    var textAlign by remember {
+        mutableStateOf(state.textState.currentParagraphStyle.textAlign)
+    }
+
+    var textColor by remember {
+        mutableStateOf(Color.Black)
+    }
+
+
+    var showColorDialog by remember { mutableStateOf(false) }
+
+    if (showColorDialog) {
+        ColorPickerDialog(
+            style = colorPickerDialogStyle,
+            onDismissRequest = {
+                showColorDialog = false
+            },
+            controller = controller,
+            initColor = textColor,
+            onChange = {
+                state.textState.toggleSpanStyle(
+                    SpanStyle(
+                        color = it
+                    )
+                )
+                textColor = it
+            }
+        )
+    }
+
     FlowRow(modifier = style.modifier, horizontalArrangement = Arrangement.Center) {
 
         QillEditorStyleButton(
@@ -127,12 +162,12 @@ internal fun QuillEditorToolBar(
                         textAlign = TextAlign.Left,
                     )
                 )
-
+                textAlign = TextAlign.Left
             },
             iconColor = style.iconColor,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
-            isSelected = state.textState.currentParagraphStyle.textAlign == TextAlign.Left,
+            isSelected = textAlign == TextAlign.Left,
             icon = Icons.AutoMirrored.Outlined.FormatAlignLeft
         )
 
@@ -143,12 +178,12 @@ internal fun QuillEditorToolBar(
                         textAlign = TextAlign.Center
                     )
                 )
-
+                textAlign = TextAlign.Center
             },
             iconColor = style.iconColor,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
-            isSelected = state.textState.currentParagraphStyle.textAlign == TextAlign.Center,
+            isSelected = textAlign == TextAlign.Center,
             icon = Icons.Outlined.FormatAlignCenter
         )
         QillEditorStyleButton(
@@ -158,11 +193,13 @@ internal fun QuillEditorToolBar(
                         textAlign = TextAlign.Right
                     )
                 )
+                textAlign = TextAlign.Right
+
             },
             iconColor = style.iconColor,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
-            isSelected = state.textState.currentParagraphStyle.textAlign == TextAlign.Right,
+            isSelected = textAlign == TextAlign.Right,
             icon = Icons.AutoMirrored.Outlined.FormatAlignRight
         )
 
@@ -226,34 +263,32 @@ internal fun QuillEditorToolBar(
             icon = Icons.Outlined.FormatStrikethrough
         )
 
+//        QillEditorStyleButton(
+//                onClick = {
+//                    state.textState.toggleSpanStyle(
+//                        SpanStyle(
+//                            fontSize = 28.sp
+//                        )
+//                    )
+//                },
+//        iconColor = style.iconColor,
+//        selectedIconBackgroundColor = style.selectedIconBackgroundColor,
+//        iconSelectedColor = style.iconSelectedColor,
+//        isSelected = state.textState.currentSpanStyle.fontSize == 28.sp,
+//        icon = Icons.Outlined.FormatSize
+//        )
         QillEditorStyleButton(
+
             onClick = {
-                state.textState.toggleSpanStyle(
-                    SpanStyle(
-                        fontSize = 28.sp
-                    )
-                )
+
+                showColorDialog = true
             },
-            iconColor = style.iconColor,
+            isSelected = state.textState.currentSpanStyle.color == Color.Red,
+            icon = Icons.Filled.ColorLens,
+            iconColor = textColor,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
-            isSelected = state.textState.currentSpanStyle.fontSize == 28.sp,
-            icon = Icons.Outlined.FormatSize
         )
-//        RichTextStyleButton(
-//            onClick = {
-//                state.toggleSpanStyle(
-//                    SpanStyle(
-//                        color = Color.Red
-//                    )
-//                )
-//            },
-//            isSelected = state.currentSpanStyle.color == Color.Red,
-//            icon = Icons.Filled.Circle,
-//            iconColor = style.iconColor,
-//            selectedIconBackgroundColor = style.selectedIconBackgroundColor,
-//            iconSelectedColor = style.iconSelectedColor,
-//        )
 
 //        RichTextStyleButton(
 //            onClick = {

@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import io.tbib.composequill.components.BuildQuillOnly
 import io.tbib.composequill.components.BuildQuillWithImage
 import io.tbib.composequill.components.BuildQuillWithVideo
+import io.tbib.composequill.components.ColorPickerDialogStyle
 import io.tbib.composequill.components.QuillEditorStyle
 import io.tbib.composequill.components.QuillEditorToolBar
 import io.tbib.composequill.components.QuillEditorToolBarStyle
@@ -48,7 +49,8 @@ fun QuillEditor(
     quillEditorToolBarStyle: QuillEditorToolBarStyle = QuillEditorToolBarStyle(),
     quillStates: QuillStates = rememberQuillStates(),
     showImagePicker: Boolean = true,
-    showVideoPicker: Boolean = true
+    showVideoPicker: Boolean = true,
+    colorPickerDialogStyle: ColorPickerDialogStyle = ColorPickerDialogStyle(),
 ) {
     val imeState = rememberImeState()
     val scrollState = rememberScrollState()
@@ -84,7 +86,9 @@ fun QuillEditor(
                 QuillEditorToolBar(
                     showImagePicker,
                     showVideoPicker,
-                    quillStates, onChange = {
+
+                    quillStates,
+                    onChange = {
                         onChange(
                             toJson(
                                 quillStates.textState.toHtml(),
@@ -93,8 +97,10 @@ fun QuillEditor(
                             )
                         )
                     },
-                    style = quillEditorToolBarStyle
-                )
+                    style = quillEditorToolBarStyle,
+                    colorPickerDialogStyle = colorPickerDialogStyle,
+
+                    )
 
                 Spacer(modifier = Modifier.height(10.dp))
             }

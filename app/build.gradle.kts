@@ -65,7 +65,7 @@ dependencies {
 //    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
 
 //    implementation("com.github.the-best-is-best:AndroidTextRichEditor:0.0.1")
-//    implementation("io.github.the-best-is-best:composequill:1.0.0-rc2")
+//    implementation("io.github.the-best-is-best:composequill:1.0.0-rc3")
 //    implementation("androidx.compose.material:material-icons-extended:1.5.4")
 //    implementation("com.mohamedrejeb.richeditor:richeditor-compose:1.0.0-rc01")
 
