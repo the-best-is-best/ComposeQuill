@@ -58,7 +58,7 @@ internal fun BuildQuillWithVideo(
     maxHeight: Dp,
     state: QuillStates,
     readOnly: Boolean,
-    style: RichTextEditorStyle
+    style: QuillEditorStyle
 ) {
     val context = LocalContext.current
     var videoFile by rememberSaveable {

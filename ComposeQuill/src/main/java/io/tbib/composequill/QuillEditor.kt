@@ -20,9 +20,9 @@ import androidx.compose.ui.unit.dp
 import io.tbib.composequill.components.BuildQuillOnly
 import io.tbib.composequill.components.BuildQuillWithImage
 import io.tbib.composequill.components.BuildQuillWithVideo
-import io.tbib.composequill.components.RichTextEditorStyle
+import io.tbib.composequill.components.QuillEditorStyle
+import io.tbib.composequill.components.QuillEditorToolBarStyle
 import io.tbib.composequill.components.TextRichToolBar
-import io.tbib.composequill.components.TextRichToolBarStyle
 import io.tbib.composequill.enum.QuillType
 import io.tbib.composequill.models.QuillParser
 import io.tbib.composequill.services.rememberImeState
@@ -42,10 +42,10 @@ data class QuillStyle(
 fun QuillEditor(
     modifier: Modifier = Modifier,
     quillStyle: QuillStyle = QuillStyle(),
-    quillEditorStyle: RichTextEditorStyle = RichTextEditorStyle(),
+    quillEditorStyle: QuillEditorStyle = QuillEditorStyle(),
     readOnly: Boolean = false,
     onChange: (value: String) -> Unit,
-    textRichToolBarStyle: TextRichToolBarStyle = TextRichToolBarStyle(),
+    quillEditorToolBarStyle: QuillEditorToolBarStyle = QuillEditorToolBarStyle(),
     quillStates: QuillStates = rememberQuillStates()
 ) {
     val imeState = rememberImeState()
@@ -89,7 +89,7 @@ fun QuillEditor(
                             )
                         )
                     },
-                    style = textRichToolBarStyle
+                    style = quillEditorToolBarStyle
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))

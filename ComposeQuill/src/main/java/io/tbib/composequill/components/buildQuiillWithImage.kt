@@ -26,7 +26,7 @@ internal fun BuildQuillWithImage(
     maxHeight: Dp,
     state: QuillStates,
     readOnly: Boolean,
-    style: RichTextEditorStyle
+    style: QuillEditorStyle
 ) {
     val decodedString = Base64.decode(state.image, Base64.DEFAULT)
     val decodedBitmap =

@@ -33,7 +33,7 @@ class QuillStates internal constructor(
             String?>(null)
     private var isInit by mutableStateOf(false)
 
-    fun init(json: String) {
+    fun sendData(json: String) {
         if (isInit) return
         val data: List<QuillParser> = Json.decodeFromString<List<QuillParser>>(json)
         for (item in data) {

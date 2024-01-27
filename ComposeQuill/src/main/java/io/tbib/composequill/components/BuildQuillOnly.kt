@@ -14,7 +14,7 @@ internal fun BuildQuillOnly(
     maxHeight: Dp,
     state: RichTextState,
     readOnly: Boolean,
-    style: RichTextEditorStyle
+    style: QuillEditorStyle
 ) {
 
     LazyColumn(

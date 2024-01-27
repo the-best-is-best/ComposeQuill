@@ -1,0 +1,95 @@
+<h1 align="center">Compose Quill</h1><br>
+
+<div align="center">
+<a href="https://opensource.org/licenses/Apache-2.0"><img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/></a>
+<a href="https://android-arsenal.com/api?level=21"><img alt="API" src="https://[](https://)img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat"/></a>
+<a href="https://github.com/the-best-is-best/"><img alt="Profile" src="https://img.shields.io/badge/github-%23181717.svg?&style=for-the-badge&logo=github&logoColor=white" height="20"/></a>
+<a href="https://search.maven.org/search?q=g:%22com.mohamedrejeb.richeditor%22%20AND%20a:%22richeditor-compose%22"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.github.the-best-is-best/composequill"/></a>
+</div>
+
+A Compose Quill library for both Jetpack Compose for android, fully customizable and supports the
+common rich text editor features
+
+- **Easy to use**: Compose Quill's API leverages Kotlin's language features for simplicity and
+  minimal boilerplate.
+- **WYSIWYG**: Compose Rich Editor is a WYSIWYG editor that supports the most common text styling
+  features.
+- **Future**: Support add image and video from gallery (support png in image and mp4 to video)
+
+It depend on <a href= "https://github.com/MohamedRejeb/Compose-Rich-Editor/tree/main">
+Compose-Rich-Editor </a>
+
+## Download
+
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.the-best-is-best/composequill)](https://central.sonatype.com/artifact/io.github.the-best-is-best/composequill)
+
+Compose Quill is available on `mavenCentral()`.
+
+```kotlin
+implementation("io.github.the-best-is-best:composequill:1.0.0-rc2")
+```
+
+## How to use
+
+```kotlin
+QuillEditor(
+    modifier = Modifier
+        .padding(0.dp)
+        .background(Color.White),
+    quillStates = quillStates,
+    textRichToolBarStyle = TextRichToolBarStyle(
+        iconColor = Color.Black,
+        iconSelectedColor = Color.White,
+
+        ),
+
+    onChange = {
+        Log.d("QuillEditor", "onCreate: $it")
+    })
+```
+
+<pr></pr>
+<pr></pr>
+[](https://)
+
+### Setup
+
+#### You can replace or send data json to display
+
+##### First use rememberQuillStates()
+
+```kotlin
+val quillStates = rememberQuillStates()
+```
+
+and use `quillStates1`
+
+```kotlin
+quillStates.sendData(json)
+```
+
+note json get it from onChange
+<pr></pr>
+<pr></pr>
+<pr></pr>
+
+### Style
+
+#### quillStyle
+
+use it for styling the quill parent of Toolbar and Editor
+
+#### quillEditorStyle
+
+use it for style editor typing
+
+#### quillEditorToolBarStyle
+
+use it for editor tool style
+
+#### onChange
+
+to recive json to save it
+
+####  
+

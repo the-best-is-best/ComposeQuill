@@ -45,7 +45,7 @@ import androidx.core.content.ContextCompat
 import io.tbib.composequill.states.QuillStates
 
 //
-data class TextRichToolBarStyle(
+data class QuillEditorToolBarStyle(
     val modifier: Modifier = Modifier,
     val iconColor: Color? = null,
     val selectedIconBackgroundColor: Color? = null,
@@ -59,7 +59,7 @@ data class TextRichToolBarStyle(
 internal fun TextRichToolBar(
     state: QuillStates,
     onChange: () -> Unit,
-    style: TextRichToolBarStyle = TextRichToolBarStyle()
+    style: QuillEditorToolBarStyle = QuillEditorToolBarStyle()
 
 
 ) {

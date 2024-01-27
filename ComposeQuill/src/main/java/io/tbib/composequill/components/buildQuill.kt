@@ -20,7 +20,7 @@ import com.mohamedrejeb.richeditor.model.RichTextState
 import com.mohamedrejeb.richeditor.ui.BasicRichTextEditor
 import com.mohamedrejeb.richeditor.ui.material3.RichText
 
-data class RichTextEditorStyle(
+data class QuillEditorStyle(
     val minLines: Int = 5,
     val maxLines: Int = 10,
     val enable: Boolean = true,
@@ -41,7 +41,7 @@ data class RichTextEditorStyle(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun QuillEditorBuilder(
-    style: RichTextEditorStyle, state: RichTextState, readOnly: Boolean,
+    style: QuillEditorStyle, state: RichTextState, readOnly: Boolean,
     onTextLayout: (TextLayoutResult) -> Unit = {},
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
