@@ -25,7 +25,7 @@ afterEvaluate {
         publications.create<MavenPublication>("release") {
             groupId = "io.github.the-best-is-best"
             artifactId = "composequill"
-            version = "1.0.0-rc2"
+            version = "1.0.0-rc3"
             from(components["release"])
 
 
@@ -66,22 +66,23 @@ afterEvaluate {
                 name = "OSSRH-snapshots"
                 url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
                 credentials {
-                    username = "the-best-is-best"
-                    password = "Mesho@5005153171997"
+                    username = System.getenv("MAVEN_NAME")
+                    password = System.getenv("MAVEN_TOKEN")
                 }
 //            }
 //            maven {
 //                name = "LocalMaven"
 //                url = uri("$buildDir/maven")
                 //   }
-//            maven {
-//                name = "GitHubPackages"
-//                url = uri("https://maven.pkg.github.com/the-best-is-best/ComposeQuill")
-//                credentials {
-//                    username = "the-best-is-best"
-//                    password =
-//                        System.getenv("BUILD_MAVEN")
-//                }
+                maven {
+                    name = "GitHubPackages"
+                    url = uri("https://maven.pkg.github.com/the-best-is-best/ComposeQuill")
+                    credentials {
+                        username = "the-best-is-best"
+                        password =
+                            System.getenv("BUILD_MAVEN")
+                    }
+                }
             }
 
 
