@@ -7,6 +7,8 @@ import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
 import com.mohamedrejeb.richeditor.model.RichTextState
 import io.tbib.composequill.enum.QuillType
 import io.tbib.composequill.models.QuillParser
@@ -60,6 +62,22 @@ class QuillStates internal constructor(
 
         isInit = true
 
+    }
+
+    internal fun changeTextColor(color: Color) {
+        textState.toggleSpanStyle(
+            SpanStyle(
+                color = color
+            )
+        )
+    }
+
+    internal fun changeTextBackgroundColor(color: Color) {
+        textState.toggleSpanStyle(
+            SpanStyle(
+                background = color
+            )
+        )
     }
 
     fun addImage(newImage: String) {

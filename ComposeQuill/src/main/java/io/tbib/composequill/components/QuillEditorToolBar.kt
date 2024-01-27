@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.FormatAlignCenter
 import androidx.compose.material.icons.outlined.FormatBold
+import androidx.compose.material.icons.outlined.FormatColorFill
 import androidx.compose.material.icons.outlined.FormatItalic
 import androidx.compose.material.icons.outlined.FormatListNumbered
 import androidx.compose.material.icons.outlined.FormatStrikethrough
@@ -131,24 +132,38 @@ internal fun QuillEditorToolBar(
         mutableStateOf(Color.Black)
     }
 
+    var textBGColor by remember {
+        mutableStateOf(Color.Black)
+    }
+    var showTextColorDialog by remember { mutableStateOf(false) }
+    var showTextBGColorDialog by remember { mutableStateOf(false) }
 
-    var showColorDialog by remember { mutableStateOf(false) }
-
-    if (showColorDialog) {
+    if (showTextColorDialog) {
         ColorPickerDialog(
             style = colorPickerDialogStyle,
             onDismissRequest = {
-                showColorDialog = false
+                showTextColorDialog = false
             },
             controller = controller,
             initColor = textColor,
             onChange = {
-                state.textState.toggleSpanStyle(
-                    SpanStyle(
-                        color = it
-                    )
-                )
+                state.changeTextColor(it)
                 textColor = it
+            }
+        )
+    }
+
+    if (showTextBGColorDialog) {
+        ColorPickerDialog(
+            style = colorPickerDialogStyle,
+            onDismissRequest = {
+                showTextBGColorDialog = false
+            },
+            controller = controller,
+            initColor = textColor,
+            onChange = {
+                state.changeTextBackgroundColor(it)
+                textBGColor = it
             }
         )
     }
@@ -281,29 +296,25 @@ internal fun QuillEditorToolBar(
 
             onClick = {
 
-                showColorDialog = true
+                showTextColorDialog = true
             },
-            isSelected = state.textState.currentSpanStyle.color == Color.Red,
+            isSelected = false,
             icon = Icons.Filled.ColorLens,
-            iconColor = textColor,
+            iconColor = state.textState.currentSpanStyle.color,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
         )
 
-//        RichTextStyleButton(
-//            onClick = {
-//                state.toggleSpanStyle(
-//                    SpanStyle(
-//                        background = Color.Yellow
-//                    )
-//                )
-//            },
-//            isSelected = state.currentSpanStyle.background == Color.Yellow,
-//            icon = Icons.AutoMirrored.Outlined.Circle,
-//            iconColor = style.iconColor,
-//            selectedIconBackgroundColor = style.selectedIconBackgroundColor,
-//            iconSelectedColor = style.iconSelectedColor,
-//            )
+        QillEditorStyleButton(
+            onClick = {
+                showTextBGColorDialog = true
+            },
+            isSelected = false,
+            icon = Icons.Outlined.FormatColorFill,
+            iconColor = state.textState.currentSpanStyle.background,
+            selectedIconBackgroundColor = style.selectedIconBackgroundColor,
+            iconSelectedColor = style.iconSelectedColor,
+        )
         QillEditorStyleButton(
             iconColor = style.iconColor,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
