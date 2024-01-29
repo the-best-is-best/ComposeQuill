@@ -13,6 +13,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.FormatAlignLeft
 import androidx.compose.material.icons.automirrored.outlined.FormatAlignRight
@@ -42,9 +45,11 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
+import io.tbib.composequill.components.styles.DialogStyle
 import io.tbib.composequill.states.QuillStates
 
 //
@@ -65,7 +70,7 @@ internal fun QuillEditorToolBar(
     state: QuillStates,
     onChange: () -> Unit,
     style: QuillEditorToolBarStyle = QuillEditorToolBarStyle(),
-    colorPickerDialogStyle: ColorPickerDialogStyle = ColorPickerDialogStyle()
+    dialogStyle: DialogStyle = DialogStyle()
 
 
 ) {
@@ -137,11 +142,10 @@ internal fun QuillEditorToolBar(
     }
     var showTextColorDialog by remember { mutableStateOf(false) }
     var showTextBGColorDialog by remember { mutableStateOf(false) }
-    var showFontDialog by remember { mutableStateOf(false) }
 
     if (showTextColorDialog) {
         ColorPickerDialog(
-            style = colorPickerDialogStyle,
+            style = dialogStyle,
             onDismissRequest = {
                 showTextColorDialog = false
             },
@@ -156,7 +160,7 @@ internal fun QuillEditorToolBar(
 
     if (showTextBGColorDialog) {
         ColorPickerDialog(
-            style = colorPickerDialogStyle,
+            style = dialogStyle,
             onDismissRequest = {
                 showTextBGColorDialog = false
             },
@@ -169,9 +173,7 @@ internal fun QuillEditorToolBar(
         )
     }
 
-    if (showFontDialog) {
-        SelectFont(state)
-    }
+
     FlowRow(modifier = style.modifier, horizontalArrangement = Arrangement.Center) {
 
         QillEditorStyleButton(
@@ -305,16 +307,26 @@ internal fun QuillEditorToolBar(
 //            iconSelectedColor = style.iconSelectedColor,
 //        )
 
-        QillEditorStyleButton(
-            onClick = {
-                showFontDialog = true
+        Row(modifier = Modifier.width(250.dp)) {
+            QillEditorStyleButton(
+                onClick = {
+                },
+                isSelected = false,
+                icon = Icons.Outlined.FontDownload,
+                iconColor = state.textState.currentSpanStyle.color,
+                selectedIconBackgroundColor = style.selectedIconBackgroundColor,
+                iconSelectedColor = style.iconSelectedColor,
+            )
+            Spacer(modifier = Modifier.width(10.dp))
+            SelectFont(state, dialogStyle, {
+
+            }, {
+                state.changeFont(it)
+
             },
-            isSelected = false,
-            icon = Icons.Outlined.FontDownload,
-            iconColor = state.textState.currentSpanStyle.color,
-            selectedIconBackgroundColor = style.selectedIconBackgroundColor,
-            iconSelectedColor = style.iconSelectedColor,
-        )
+                null
+            )
+        }
 
         QillEditorStyleButton(
             onClick = {

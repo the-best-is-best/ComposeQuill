@@ -25,16 +25,13 @@ import com.github.skydoves.colorpicker.compose.AlphaSlider
 import com.github.skydoves.colorpicker.compose.BrightnessSlider
 import com.github.skydoves.colorpicker.compose.ColorPickerController
 import com.github.skydoves.colorpicker.compose.HsvColorPicker
+import io.tbib.composequill.components.styles.DialogStyle
 
-
-class ColorPickerDialogStyle(
-    val buttonStyle: Modifier = Modifier,
-)
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
 internal fun ColorPickerDialog(
-    style: ColorPickerDialogStyle = ColorPickerDialogStyle(),
+    style: DialogStyle = DialogStyle(),
     onDismissRequest: () -> Unit,
     controller: ColorPickerController,
     onChange: (value: Color) -> Unit,
@@ -46,7 +43,8 @@ internal fun ColorPickerDialog(
         }
         // Custom shape, background, and layout for the dialog
         Surface(
-            shape = RoundedCornerShape(16.dp),
+            modifier = style.dialogStyle,
+            shape = RoundedCornerShape((style.roundedCorner ?: 16).dp),
         ) {
             Column(
                 modifier = Modifier
@@ -103,7 +101,7 @@ internal fun ColorPickerDialog(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                 ) {
                     ElevatedButton(
-                        modifier = ColorPickerDialogStyle().buttonStyle,
+                        modifier = DialogStyle().buttonStyle,
                         onClick = {
                             onDismissRequest()
 

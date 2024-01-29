@@ -10,9 +10,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.googlefonts.GoogleFont
 import com.mohamedrejeb.richeditor.model.RichTextState
 import io.tbib.composequill.enum.QuillType
-import io.tbib.composequill.google_fonts.api.GoogleFontsItemsModel
 import io.tbib.composequill.google_fonts.control.CallGoogleMapApi
 import io.tbib.composequill.models.QuillParser
 import io.tbib.composequill.objet_box.SaveFont
@@ -38,8 +39,9 @@ class QuillStates internal constructor(
     internal var video by mutableStateOf<
             String?>(null)
     private var isInit by mutableStateOf(false)
-    internal var fonts by mutableStateOf<List<GoogleFontsItemsModel>?>(null)
+    internal var fonts by mutableStateOf<List<GoogleFont>?>(null)
     private var keyApiGoogle: String? = null
+
 
     fun sendData(json: String) {
         if (isInit) return
@@ -86,6 +88,14 @@ class QuillStates internal constructor(
         )
     }
 
+    internal fun changeFont(font: FontFamily) {
+        textState.toggleSpanStyle(
+            SpanStyle(
+                fontFamily = font
+            )
+        )
+    }
+
     internal fun addImage(newImage: String) {
         if (newImage.isEmpty()) return
         if (newImage == image) return
@@ -117,7 +127,8 @@ class QuillStates internal constructor(
         isInit = false
     }
 
-    fun useFont(key: String, context: Context) {
+    fun useGoogleFont(key: String, context: Context) {
+        if (keyApiGoogle == key) return
         keyApiGoogle = key
         SaveFont.init(context)
         getFonts()
@@ -139,7 +150,8 @@ class QuillStates internal constructor(
                     it.image,
                     it.video,
                     it.textState.toHtml(),
-                    it.isInit
+                    it.isInit,
+                    it.keyApiGoogle
                 )
             },
 
@@ -156,6 +168,7 @@ class QuillStates internal constructor(
                 quillStates.video = video
                 quillStates.textState.setHtml(textState)
                 quillStates.isInit = it[4] as Boolean
+                quillStates.keyApiGoogle = it[5] as String?
                 quillStates
             }
         )
