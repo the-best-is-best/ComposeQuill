@@ -1,5 +1,6 @@
 package io.tbib.composequill.states
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -11,7 +12,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import com.mohamedrejeb.richeditor.model.RichTextState
 import io.tbib.composequill.enum.QuillType
+import io.tbib.composequill.google_fonts.api.GoogleFontsItemsModel
+import io.tbib.composequill.google_fonts.control.CallGoogleMapApi
 import io.tbib.composequill.models.QuillParser
+import io.tbib.composequill.objet_box.SaveFont
 import io.tbib.composequill.services.convertFileToBase64
 import kotlinx.serialization.json.Json
 
@@ -34,6 +38,8 @@ class QuillStates internal constructor(
     internal var video by mutableStateOf<
             String?>(null)
     private var isInit by mutableStateOf(false)
+    internal var fonts by mutableStateOf<List<GoogleFontsItemsModel>?>(null)
+    private var keyApiGoogle: String? = null
 
     fun sendData(json: String) {
         if (isInit) return
@@ -80,7 +86,7 @@ class QuillStates internal constructor(
         )
     }
 
-    fun addImage(newImage: String) {
+    internal fun addImage(newImage: String) {
         if (newImage.isEmpty()) return
         if (newImage == image) return
         val base64 = convertFileToBase64(newImage)
@@ -92,7 +98,7 @@ class QuillStates internal constructor(
 
     }
 
-    fun addVideo(newVideo: String) {
+    internal fun addVideo(newVideo: String) {
         if (newVideo.isEmpty()) return
         if (convertFileToBase64(newVideo) == video) return
         loading = true
@@ -100,6 +106,28 @@ class QuillStates internal constructor(
         val base64 = convertFileToBase64(newVideo)
         video = base64
 
+
+    }
+
+    fun clear() {
+        textState = RichTextState()
+        image = null
+        video = null
+        loading = false
+        isInit = false
+    }
+
+    fun useFont(key: String, context: Context) {
+        keyApiGoogle = key
+        SaveFont.init(context)
+        getFonts()
+
+    }
+
+    private fun getFonts() {
+        if (keyApiGoogle == null) return
+
+        fonts = CallGoogleMapApi().getGoogleFont(keyApiGoogle!!)
 
     }
 

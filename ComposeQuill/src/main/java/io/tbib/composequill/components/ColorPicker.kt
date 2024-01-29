@@ -21,14 +21,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.github.skydoves.colorpicker.compose.AlphaSlider
+import com.github.skydoves.colorpicker.compose.BrightnessSlider
 import com.github.skydoves.colorpicker.compose.ColorPickerController
 import com.github.skydoves.colorpicker.compose.HsvColorPicker
 
 
 class ColorPickerDialogStyle(
     val buttonStyle: Modifier = Modifier,
-
-    )
+)
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
@@ -65,6 +66,36 @@ internal fun ColorPickerDialog(
                     },
 
                     )
+
+                // on below line we are adding a alpha slider.
+                AlphaSlider(
+                    // on below line we
+                    // are adding a modifier to it.
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp)
+                        .height(35.dp),
+                    // on below line we are
+                    // adding a controller.
+                    controller = controller,
+                    // on below line we are
+                    // adding odd and even color.
+                    tileOddColor = Color.White,
+                    tileEvenColor = Color.Black
+                )
+                // on below line we are
+                // adding a brightness slider.
+                BrightnessSlider(
+                    // on below line we
+                    // are adding a modifier to it.
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp)
+                        .height(35.dp),
+                    // on below line we are
+                    // adding a controller.
+                    controller = controller,
+                )
 
                 Row(
                     modifier = Modifier

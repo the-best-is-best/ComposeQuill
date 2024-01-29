@@ -17,8 +17,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.FormatAlignLeft
 import androidx.compose.material.icons.automirrored.outlined.FormatAlignRight
 import androidx.compose.material.icons.automirrored.outlined.FormatListBulleted
-import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.outlined.Code
+import androidx.compose.material.icons.outlined.FontDownload
 import androidx.compose.material.icons.outlined.FormatAlignCenter
 import androidx.compose.material.icons.outlined.FormatBold
 import androidx.compose.material.icons.outlined.FormatColorFill
@@ -69,7 +69,6 @@ internal fun QuillEditorToolBar(
 
 
 ) {
-
     val context = LocalContext.current
     val activity = context as Activity
     val myImagePicker = rememberLauncherForActivityResult(
@@ -122,6 +121,7 @@ internal fun QuillEditorToolBar(
 //        state.addVideo(path.value)
 //
 //    }
+
     val controller = rememberColorPickerController()
 
     var textAlign by remember {
@@ -137,6 +137,7 @@ internal fun QuillEditorToolBar(
     }
     var showTextColorDialog by remember { mutableStateOf(false) }
     var showTextBGColorDialog by remember { mutableStateOf(false) }
+    var showFontDialog by remember { mutableStateOf(false) }
 
     if (showTextColorDialog) {
         ColorPickerDialog(
@@ -168,6 +169,9 @@ internal fun QuillEditorToolBar(
         )
     }
 
+    if (showFontDialog) {
+        SelectFont(state)
+    }
     FlowRow(modifier = style.modifier, horizontalArrangement = Arrangement.Center) {
 
         QillEditorStyleButton(
@@ -182,7 +186,7 @@ internal fun QuillEditorToolBar(
             iconColor = style.iconColor,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
-            isSelected = textAlign == TextAlign.Left,
+            isSelected = false,
             icon = Icons.AutoMirrored.Outlined.FormatAlignLeft
         )
 
@@ -198,7 +202,7 @@ internal fun QuillEditorToolBar(
             iconColor = style.iconColor,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
-            isSelected = textAlign == TextAlign.Center,
+            isSelected = false,
             icon = Icons.Outlined.FormatAlignCenter
         )
         QillEditorStyleButton(
@@ -214,7 +218,7 @@ internal fun QuillEditorToolBar(
             iconColor = style.iconColor,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
-            isSelected = textAlign == TextAlign.Right,
+            isSelected = false,
             icon = Icons.AutoMirrored.Outlined.FormatAlignRight
         )
 
@@ -280,26 +284,33 @@ internal fun QuillEditorToolBar(
 
 //        QillEditorStyleButton(
 //                onClick = {
-//                    state.textState.toggleSpanStyle(
-//                        SpanStyle(
-//                            fontSize = 28.sp
-//                        )
-//                    )
+//
 //                },
 //        iconColor = style.iconColor,
 //        selectedIconBackgroundColor = style.selectedIconBackgroundColor,
 //        iconSelectedColor = style.iconSelectedColor,
-//        isSelected = state.textState.currentSpanStyle.fontSize == 28.sp,
+//        isSelected = false,
 //        icon = Icons.Outlined.FormatSize
 //        )
+//        QillEditorStyleButton(
+//
+//            onClick = {
+//
+//                showTextColorDialog = true
+//            },
+//            isSelected = false,
+//            icon = Icons.Filled.ColorLens,
+//            iconColor = state.textState.currentSpanStyle.color,
+//            selectedIconBackgroundColor = style.selectedIconBackgroundColor,
+//            iconSelectedColor = style.iconSelectedColor,
+//        )
+
         QillEditorStyleButton(
-
             onClick = {
-
-                showTextColorDialog = true
+                showFontDialog = true
             },
             isSelected = false,
-            icon = Icons.Filled.ColorLens,
+            icon = Icons.Outlined.FontDownload,
             iconColor = state.textState.currentSpanStyle.color,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,

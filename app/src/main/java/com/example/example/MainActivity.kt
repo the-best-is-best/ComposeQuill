@@ -33,6 +33,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val quillStates = rememberQuillStates()
             quillStates.sendData(newData)
+            quillStates.useFont("AIzaSyA6F2ql0igVrS1e-N2lLKKAbfSeJz8fJJk", this)
             ExampleTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
