@@ -28,7 +28,7 @@ internal fun SelectFont(
 ) {
     val fonts = state.fonts
 
-    SearchableDropDown<GoogleFont>(
+    SearchableDropDown(
         listOfItems = fonts!!, // provide the list of items of any type you want to populated in the dropdown,
         modifier = Modifier.fillMaxWidth(),
         onDropDownItemSelected = { item -> // Returns the item selected in the dropdown

@@ -13,6 +13,8 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.googlefonts.GoogleFont
 import com.mohamedrejeb.richeditor.model.RichTextState
+import io.tbib.composequill.components.ENUMFontSize
+import io.tbib.composequill.components.toFontSize
 import io.tbib.composequill.enum.QuillType
 import io.tbib.composequill.google_fonts.control.CallGoogleMapApi
 import io.tbib.composequill.models.QuillParser
@@ -41,6 +43,7 @@ class QuillStates internal constructor(
     private var isInit by mutableStateOf(false)
     internal var fonts by mutableStateOf<List<GoogleFont>?>(null)
     private var keyApiGoogle: String? = null
+//    internal var fontSize: ENUMFontSize by mutableStateOf(ENUMFontSize.NORMAL)
 
 
     fun sendData(json: String) {
@@ -96,6 +99,15 @@ class QuillStates internal constructor(
         )
     }
 
+    internal fun changeFontSize(size: ENUMFontSize) {
+        textState.toggleSpanStyle(
+            SpanStyle(
+                fontSize = size.toFontSize()
+            )
+        )
+        //fontSize = size
+    }
+
     internal fun addImage(newImage: String) {
         if (newImage.isEmpty()) return
         if (newImage == image) return
@@ -124,7 +136,7 @@ class QuillStates internal constructor(
         image = null
         video = null
         loading = false
-        isInit = false
+
     }
 
     fun useGoogleFont(key: String, context: Context) {
@@ -151,7 +163,9 @@ class QuillStates internal constructor(
                     it.video,
                     it.textState.toHtml(),
                     it.isInit,
-                    it.keyApiGoogle
+                    it.keyApiGoogle,
+//                    it.fontSize,
+                    it.fonts
                 )
             },
 
@@ -169,6 +183,8 @@ class QuillStates internal constructor(
                 quillStates.textState.setHtml(textState)
                 quillStates.isInit = it[4] as Boolean
                 quillStates.keyApiGoogle = it[5] as String?
+//                quillStates.fontSize =  it[6] as ENUMFontSize
+                quillStates.fonts = it[6] as List<GoogleFont>?
                 quillStates
             }
         )

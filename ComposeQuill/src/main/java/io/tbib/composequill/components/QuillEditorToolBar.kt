@@ -20,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.FormatAlignLeft
 import androidx.compose.material.icons.automirrored.outlined.FormatAlignRight
 import androidx.compose.material.icons.automirrored.outlined.FormatListBulleted
+import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.FontDownload
 import androidx.compose.material.icons.outlined.FormatAlignCenter
@@ -27,6 +28,7 @@ import androidx.compose.material.icons.outlined.FormatBold
 import androidx.compose.material.icons.outlined.FormatColorFill
 import androidx.compose.material.icons.outlined.FormatItalic
 import androidx.compose.material.icons.outlined.FormatListNumbered
+import androidx.compose.material.icons.outlined.FormatSize
 import androidx.compose.material.icons.outlined.FormatStrikethrough
 import androidx.compose.material.icons.outlined.FormatUnderlined
 import androidx.compose.material.icons.outlined.Image
@@ -142,6 +144,7 @@ internal fun QuillEditorToolBar(
     }
     var showTextColorDialog by remember { mutableStateOf(false) }
     var showTextBGColorDialog by remember { mutableStateOf(false) }
+    var showFontSizeDialog by remember { mutableStateOf(false) }
 
     if (showTextColorDialog) {
         ColorPickerDialog(
@@ -173,7 +176,20 @@ internal fun QuillEditorToolBar(
         )
     }
 
-
+    if (showFontSizeDialog) {
+        FontSizeDialog(
+            style = dialogStyle,
+            onDismissRequest = {
+                showFontSizeDialog = false
+            },
+            controller = controller,
+            initSize = state.textState.currentSpanStyle.fontSize.toENUM(state.textState.currentSpanStyle.fontSize),
+            onChange = {
+                state.changeFontSize(it)
+                showFontSizeDialog = false
+            }
+        )
+    }
     FlowRow(modifier = style.modifier, horizontalArrangement = Arrangement.Center) {
 
         QillEditorStyleButton(
@@ -283,37 +299,13 @@ internal fun QuillEditorToolBar(
             isSelected = state.textState.currentSpanStyle.textDecoration?.contains(TextDecoration.LineThrough) == true,
             icon = Icons.Outlined.FormatStrikethrough
         )
-
-//        QillEditorStyleButton(
-//                onClick = {
-//
-//                },
-//        iconColor = style.iconColor,
-//        selectedIconBackgroundColor = style.selectedIconBackgroundColor,
-//        iconSelectedColor = style.iconSelectedColor,
-//        isSelected = false,
-//        icon = Icons.Outlined.FormatSize
-//        )
-//        QillEditorStyleButton(
-//
-//            onClick = {
-//
-//                showTextColorDialog = true
-//            },
-//            isSelected = false,
-//            icon = Icons.Filled.ColorLens,
-//            iconColor = state.textState.currentSpanStyle.color,
-//            selectedIconBackgroundColor = style.selectedIconBackgroundColor,
-//            iconSelectedColor = style.iconSelectedColor,
-//        )
-
         Row(modifier = Modifier.width(250.dp)) {
             QillEditorStyleButton(
                 onClick = {
                 },
                 isSelected = false,
                 icon = Icons.Outlined.FontDownload,
-                iconColor = state.textState.currentSpanStyle.color,
+                iconColor = Color.Black,
                 selectedIconBackgroundColor = style.selectedIconBackgroundColor,
                 iconSelectedColor = style.iconSelectedColor,
             )
@@ -327,6 +319,31 @@ internal fun QuillEditorToolBar(
                 null
             )
         }
+
+
+        QillEditorStyleButton(
+            onClick = {
+                showFontSizeDialog = true
+            },
+            iconColor = style.iconColor,
+            selectedIconBackgroundColor = style.selectedIconBackgroundColor,
+            iconSelectedColor = style.iconSelectedColor,
+            isSelected = false,
+            icon = Icons.Outlined.FormatSize
+        )
+        QillEditorStyleButton(
+
+            onClick = {
+
+                showTextColorDialog = true
+            },
+            isSelected = false,
+            icon = Icons.Filled.ColorLens,
+            iconColor = state.textState.currentSpanStyle.color,
+            selectedIconBackgroundColor = style.selectedIconBackgroundColor,
+            iconSelectedColor = style.iconSelectedColor,
+        )
+
 
         QillEditorStyleButton(
             onClick = {

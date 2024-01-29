@@ -50,7 +50,7 @@ internal fun QuillEditorBuilder(
             modifier = style.modifier,
             state = state,
             minLines = style.minLines,
-            textStyle = TextStyle(fontSize = 30.sp),
+            textStyle = TextStyle(fontSize = 20.sp),
             maxLines = style.maxLines,
             enabled = style.enable,
             keyboardOptions = style.keyboardOptions,
@@ -67,6 +67,6 @@ internal fun QuillEditorBuilder(
                 .fillMaxWidth()
                 .padding(10.dp),
             state = state,
-            fontSize = 30.sp,
+            fontSize = 20.sp,
         )
 }
