@@ -16,10 +16,15 @@ import com.mohamedrejeb.richeditor.model.RichTextState
 import io.tbib.composequill.components.ENUMFontSize
 import io.tbib.composequill.components.toFontSize
 import io.tbib.composequill.enum.QuillType
+import io.tbib.composequill.google_fonts.api.GoogleFontsItemsModel
 import io.tbib.composequill.google_fonts.control.CallGoogleMapApi
 import io.tbib.composequill.models.QuillParser
-import io.tbib.composequill.objet_box.SaveFont
+import io.tbib.composequill.objet_box.SaveGoogleFont
 import io.tbib.composequill.services.convertFileToBase64
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 
 @Composable
@@ -41,7 +46,7 @@ class QuillStates internal constructor(
     internal var video by mutableStateOf<
             String?>(null)
     private var isInit by mutableStateOf(false)
-    internal var fonts by mutableStateOf<List<GoogleFont>?>(null)
+    internal var fonts by mutableStateOf<List<GoogleFont?>>(listOf())
     private var keyApiGoogle: String? = null
 //    internal var fontSize: ENUMFontSize by mutableStateOf(ENUMFontSize.NORMAL)
 
@@ -142,15 +147,26 @@ class QuillStates internal constructor(
     fun useGoogleFont(key: String, context: Context) {
         if (keyApiGoogle == key) return
         keyApiGoogle = key
-        SaveFont.init(context)
+        SaveGoogleFont.init(context)
         getFonts()
 
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun getFonts() {
         if (keyApiGoogle == null) return
+        val fontBox = SaveGoogleFont.get().boxFor(GoogleFontsItemsModel::class.java)
+        val getFonts = fontBox.all
+        if (getFonts.isNullOrEmpty()) {
+            GlobalScope.launch(Dispatchers.IO) {
+                fonts = CallGoogleMapApi().getGoogleFont(keyApiGoogle!!)
+            }
+        } else {
+            if (getFonts.isNotEmpty()) {
+                fonts = getFonts.map { GoogleFont(it.family) }
+            }
+        }
 
-        fonts = CallGoogleMapApi().getGoogleFont(keyApiGoogle!!)
 
     }
 
@@ -184,7 +200,7 @@ class QuillStates internal constructor(
                 quillStates.isInit = it[4] as Boolean
                 quillStates.keyApiGoogle = it[5] as String?
 //                quillStates.fontSize =  it[6] as ENUMFontSize
-                quillStates.fonts = it[6] as List<GoogleFont>?
+                quillStates.fonts = it[6] as List<GoogleFont>
                 quillStates
             }
         )

@@ -4,7 +4,7 @@ import android.content.Context
 import io.objectbox.BoxStore
 import io.tbib.composequill.google_fonts.api.MyObjectBox
 
-internal class SaveFont {
+internal class SaveGoogleFont {
     companion object {
 
         private lateinit var boxStore: BoxStore

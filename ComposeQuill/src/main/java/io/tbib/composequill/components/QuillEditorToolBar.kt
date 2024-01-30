@@ -63,7 +63,7 @@ data class QuillEditorToolBarStyle(
 
 )
 
-@SuppressLint("StateFlowValueCalledInComposition", "Recycle")
+@SuppressLint("StateFlowValueCalledInComposition", "Recycle", "SuspiciousIndentation")
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun QuillEditorToolBar(
@@ -299,26 +299,27 @@ internal fun QuillEditorToolBar(
             isSelected = state.textState.currentSpanStyle.textDecoration?.contains(TextDecoration.LineThrough) == true,
             icon = Icons.Outlined.FormatStrikethrough
         )
-        Row(modifier = Modifier.width(250.dp)) {
-            QillEditorStyleButton(
-                onClick = {
+        if (state.fonts.isNotEmpty())
+            Row(modifier = Modifier.width(250.dp)) {
+                QillEditorStyleButton(
+                    onClick = {
+                    },
+                    isSelected = false,
+                    icon = Icons.Outlined.FontDownload,
+                    iconColor = Color.Black,
+                    selectedIconBackgroundColor = style.selectedIconBackgroundColor,
+                    iconSelectedColor = style.iconSelectedColor,
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                SelectFont(state, dialogStyle, {
+
+                }, {
+                    state.changeFont(it)
+
                 },
-                isSelected = false,
-                icon = Icons.Outlined.FontDownload,
-                iconColor = Color.Black,
-                selectedIconBackgroundColor = style.selectedIconBackgroundColor,
-                iconSelectedColor = style.iconSelectedColor,
-            )
-            Spacer(modifier = Modifier.width(10.dp))
-            SelectFont(state, dialogStyle, {
-
-            }, {
-                state.changeFont(it)
-
-            },
-                null
-            )
-        }
+                    null
+                )
+            }
 
 
         QillEditorStyleButton(

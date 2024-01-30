@@ -29,13 +29,13 @@ internal fun SelectFont(
     val fonts = state.fonts
 
     SearchableDropDown(
-        listOfItems = fonts!!, // provide the list of items of any type you want to populated in the dropdown,
+        listOfItems = fonts, // provide the list of items of any type you want to populated in the dropdown,
         modifier = Modifier.fillMaxWidth(),
         onDropDownItemSelected = { item -> // Returns the item selected in the dropdown
             onChange(
                 FontFamily(
                     Font(
-                        googleFont = GoogleFont(item.name),
+                        googleFont = GoogleFont(item!!.name),
                         fontProvider = fontProvider
                     )
                 )
@@ -46,10 +46,10 @@ internal fun SelectFont(
         enable = true,
         placeholder = { Text(text = "Select Font") },
         dropdownItem = { v ->
-            Text(text = v.name)
+            Text(text = v!!.name)
         },
         selectedOptionTextDisplay = { v ->
-            v.name
+            v!!.name
         },
         defaultItem = initFont,
 
