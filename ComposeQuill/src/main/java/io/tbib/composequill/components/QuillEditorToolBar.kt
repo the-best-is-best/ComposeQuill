@@ -182,7 +182,6 @@ internal fun QuillEditorToolBar(
             onDismissRequest = {
                 showFontSizeDialog = false
             },
-            controller = controller,
             initSize = state.textState.currentSpanStyle.fontSize.toENUM(state.textState.currentSpanStyle.fontSize),
             onChange = {
                 state.changeFontSize(it)
@@ -311,7 +310,7 @@ internal fun QuillEditorToolBar(
                     iconSelectedColor = style.iconSelectedColor,
                 )
                 Spacer(modifier = Modifier.width(10.dp))
-                SelectFont(state, dialogStyle, {
+                SelectFont(state, {
 
                 }, {
                     state.changeFont(it)

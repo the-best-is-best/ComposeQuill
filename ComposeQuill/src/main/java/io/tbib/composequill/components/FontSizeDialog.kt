@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.github.skydoves.colorpicker.compose.ColorPickerController
 import io.tbib.composequill.components.styles.DialogStyle
 
 internal enum class ENUMFontSize {
@@ -55,7 +54,6 @@ internal fun TextUnit.toENUM(value: TextUnit) = run {
 internal fun FontSizeDialog(
     style: DialogStyle = DialogStyle(),
     onDismissRequest: () -> Unit,
-    controller: ColorPickerController,
     onChange: (value: ENUMFontSize) -> Unit,
     initSize: ENUMFontSize? = null
 ) {

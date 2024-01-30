@@ -85,15 +85,15 @@ afterEvaluate {
 //                name = "LocalMaven"
 //                url = uri("$buildDir/maven")
                 //   }
-                maven {
-                    name = "GitHubPackages"
-                    url = uri("https://maven.pkg.github.com/the-best-is-best/ComposeQuill")
-                    credentials {
-                        username = "the-best-is-best"
-                        password =
-                            System.getenv("BUILD_MAVEN")
-                    }
-                }
+//                maven {
+//                    name = "GitHubPackages"
+//                    url = uri("https://maven.pkg.github.com/the-best-is-best/ComposeQuill")
+//                    credentials {
+//                        username = "the-best-is-best"
+//                        password =
+//                            System.getenv("BUILD_MAVEN")
+//                    }
+//                }
             }
 
 

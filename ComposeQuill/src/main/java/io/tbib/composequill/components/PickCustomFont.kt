@@ -9,7 +9,6 @@ import androidx.compose.ui.text.googlefonts.Font
 import androidx.compose.ui.text.googlefonts.GoogleFont
 import com.tbib.composequill.R
 import com.tbib.composesearchabledropdown.SearchableDropDown
-import io.tbib.composequill.components.styles.DialogStyle
 import io.tbib.composequill.states.QuillStates
 
 private val fontProvider = GoogleFont.Provider(
@@ -21,7 +20,6 @@ private val fontProvider = GoogleFont.Provider(
 @Composable
 internal fun SelectFont(
     state: QuillStates,
-    style: DialogStyle = DialogStyle(),
     onDismissRequest: () -> Unit,
     onChange: (value: FontFamily) -> Unit,
     initFont: GoogleFont?
