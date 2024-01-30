@@ -38,3 +38,4 @@ rootProject.name = "example"
 include(":app")
 //include(":tTextRichEditor")
 include(":ComposeQuill")
+include(":ComposeSearchableDropdown")

@@ -36,7 +36,7 @@ afterEvaluate {
         publications.create<MavenPublication>("release") {
             groupId = "io.github.the-best-is-best"
             artifactId = "composequill"
-            version = "1.0.0-rc3"
+            version = "1.0.0"
             from(components["release"])
 
 
@@ -150,7 +150,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 //    implementation("com.google.android.material:material:1.11.0")
 //    implementation("androidx.compose.ui:ui:1.6.0")
-    implementation("io.github.the-best-is-best:ComposeSearchableDropdown:1.0.0")
+    implementation("io.github.the-best-is-best:ComposeSearchableDropdown:1.0.1")
+//    implementation(project(":ComposeSearchableDropdown"))
     implementation("androidx.compose.ui:ui:1.6.0")
     implementation("androidx.compose.material3:material3:1.2.0-rc01")
     implementation("com.mohamedrejeb.richeditor:richeditor-compose:1.0.0-rc01")
@@ -161,7 +162,6 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("io.objectbox:objectbox-kotlin:$objectboxVersion")
-//  implementation("com.github.Breens-Mbaka:Searchable-Dropdown-Menu-Jetpack-Compose:0.3.7")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

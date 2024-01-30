@@ -51,6 +51,9 @@ internal fun SelectFont(
         selectedOptionTextDisplay = { v ->
             v!!.name
         },
+        searchIn = {
+            it!!.name
+        },
         defaultItem = initFont,
 
         )

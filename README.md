@@ -59,7 +59,7 @@ QuillEditor(
 val quillStates = rememberQuillStates()
 ```
 
-and use `quillStates1`
+and use `quillStates`
 
 ```kotlin
 quillStates.sendData(json)
@@ -94,3 +94,21 @@ to receive json to save it
 - Can make `showImagePicker` = Boolean ,
   `showVideoPicker` = Boolean,
 
+### V1.0.0
+
+- Can change font size
+- Can change font family use google font
+- Can change font color
+
+## Note
+
+- To use useGoogleFont need create api key in google console and active google font api
+- to active it need
+
+<br></br>
+K
+
+```kotlin
+
+quillStates.useGoogleFont("your api key")
+```
