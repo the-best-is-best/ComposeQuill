@@ -191,7 +191,7 @@ internal fun QuillEditorToolBar(
     }
     FlowRow(modifier = style.modifier, horizontalArrangement = Arrangement.Center) {
 
-        QillEditorStyleButton(
+        QuillEditorStyleButton(
             onClick = {
                 state.textState.addParagraphStyle(
                     ParagraphStyle(
@@ -207,7 +207,7 @@ internal fun QuillEditorToolBar(
             icon = Icons.AutoMirrored.Outlined.FormatAlignLeft
         )
 
-        QillEditorStyleButton(
+        QuillEditorStyleButton(
             onClick = {
                 state.textState.addParagraphStyle(
                     ParagraphStyle(
@@ -222,7 +222,7 @@ internal fun QuillEditorToolBar(
             isSelected = false,
             icon = Icons.Outlined.FormatAlignCenter
         )
-        QillEditorStyleButton(
+        QuillEditorStyleButton(
             onClick = {
                 state.textState.addParagraphStyle(
                     ParagraphStyle(
@@ -239,7 +239,7 @@ internal fun QuillEditorToolBar(
             icon = Icons.AutoMirrored.Outlined.FormatAlignRight
         )
 
-        QillEditorStyleButton(
+        QuillEditorStyleButton(
             onClick = {
                 state.textState.toggleSpanStyle(
                     SpanStyle(
@@ -254,7 +254,7 @@ internal fun QuillEditorToolBar(
             icon = Icons.Outlined.FormatBold
         )
 
-        QillEditorStyleButton(
+        QuillEditorStyleButton(
             onClick = {
                 state.textState.toggleSpanStyle(
                     SpanStyle(
@@ -269,7 +269,7 @@ internal fun QuillEditorToolBar(
             icon = Icons.Outlined.FormatItalic
         )
 
-        QillEditorStyleButton(
+        QuillEditorStyleButton(
             onClick = {
                 state.textState.toggleSpanStyle(
                     SpanStyle(
@@ -284,7 +284,7 @@ internal fun QuillEditorToolBar(
             icon = Icons.Outlined.FormatUnderlined
         )
 
-        QillEditorStyleButton(
+        QuillEditorStyleButton(
             onClick = {
                 state.textState.toggleSpanStyle(
                     SpanStyle(
@@ -300,7 +300,7 @@ internal fun QuillEditorToolBar(
         )
         if (state.fonts.isNotEmpty())
             Row(modifier = Modifier.width(250.dp)) {
-                QillEditorStyleButton(
+                QuillEditorStyleButton(
                     onClick = {
                     },
                     isSelected = false,
@@ -321,7 +321,7 @@ internal fun QuillEditorToolBar(
             }
 
 
-        QillEditorStyleButton(
+        QuillEditorStyleButton(
             onClick = {
                 showFontSizeDialog = true
             },
@@ -331,7 +331,7 @@ internal fun QuillEditorToolBar(
             isSelected = false,
             icon = Icons.Outlined.FormatSize
         )
-        QillEditorStyleButton(
+        QuillEditorStyleButton(
 
             onClick = {
 
@@ -345,7 +345,7 @@ internal fun QuillEditorToolBar(
         )
 
 
-        QillEditorStyleButton(
+        QuillEditorStyleButton(
             onClick = {
                 showTextBGColorDialog = true
             },
@@ -355,7 +355,7 @@ internal fun QuillEditorToolBar(
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
         )
-        QillEditorStyleButton(
+        QuillEditorStyleButton(
             iconColor = style.iconColor,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
@@ -366,7 +366,7 @@ internal fun QuillEditorToolBar(
             icon = Icons.AutoMirrored.Outlined.FormatListBulleted,
         )
 
-        QillEditorStyleButton(
+        QuillEditorStyleButton(
             iconColor = style.iconColor,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
@@ -377,7 +377,7 @@ internal fun QuillEditorToolBar(
             isSelected = state.textState.isOrderedList,
             icon = Icons.Outlined.FormatListNumbered,
         )
-        QillEditorStyleButton(
+        QuillEditorStyleButton(
             iconColor = style.iconColor,
             selectedIconBackgroundColor = style.selectedIconBackgroundColor,
             iconSelectedColor = style.iconSelectedColor,
@@ -388,7 +388,7 @@ internal fun QuillEditorToolBar(
             icon = Icons.Outlined.Code,
         )
         if (showImagePicker)
-            QillEditorStyleButton(
+            QuillEditorStyleButton(
                 iconColor = style.iconColor,
                 selectedIconBackgroundColor = style.selectedIconBackgroundColor,
                 iconSelectedColor = style.iconSelectedColor,
@@ -412,7 +412,7 @@ internal fun QuillEditorToolBar(
                 icon = Icons.Outlined.Image
             )
         if (showVideoPicker)
-            QillEditorStyleButton(
+            QuillEditorStyleButton(
                 iconColor = style.iconColor,
                 selectedIconBackgroundColor = style.selectedIconBackgroundColor,
                 iconSelectedColor = style.iconSelectedColor,
