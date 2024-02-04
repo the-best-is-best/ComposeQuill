@@ -2,14 +2,7 @@ package io.tbib.composequill.components
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
-import android.provider.MediaStore
-import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -48,11 +41,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 import io.tbib.composequill.components.styles.DialogStyle
+import io.tbib.composequill.services.convertUriImageToFile
+import io.tbib.composequill.services.convertVideoUriToFile
 import io.tbib.composequill.states.QuillStates
+import io.tbib.composerequestpermission.RequestPermission
+import io.tbib.tcomposemediapicker.MimeType
+import io.tbib.tcomposemediapicker.TMediaPicker
 
 //
 data class QuillEditorToolBarStyle(
@@ -77,57 +73,48 @@ internal fun QuillEditorToolBar(
 
 ) {
     val context = LocalContext.current
-    val activity = context as Activity
-    val myImagePicker = rememberLauncherForActivityResult(
-        ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        uri?.let { it ->
-            val projection = arrayOf(MediaStore.Images.Media.DATA)
-
-            val cursor = context.contentResolver.query(it, projection, null, null, null)
-            cursor?.use {
-                if (it.moveToFirst()) {
-                    val pathIndex = it.getColumnIndex(MediaStore.Images.Media.DATA)
-                    val path = it.getString(pathIndex)
-                    state.addImage(path)
-                    onChange()
-                }
+    val myImagePicker = TMediaPicker.PickSingleMedia().apply {
+        Init(MimeType.Image.Png, onMediaPicked = { uri ->
+           val imageBase= convertUriImageToFile(uri, context)
+            if(imageBase!=null) {
+                state.addImage(imageBase)
+                onChange()
             }
-        }
+        })
     }
-    val path = remember { mutableStateOf("") }
-    val myVideoPicker = rememberLauncherForActivityResult(
-        ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        uri?.let { it ->
-            val projection = arrayOf(MediaStore.Video.Media.DATA)
-
-            val contentResolver = context.contentResolver
-            val inputStream = contentResolver.openInputStream(uri)
-            val size = inputStream!!.available()
-            if (size > maxSize) {
-                Toast.makeText(context, "File size should be less than 20 MB", Toast.LENGTH_SHORT)
-                    .show()
-                return@let
-            }
-            val cursor = context.contentResolver.query(it, projection, null, null, null)
-            cursor?.use {
-                if (it.moveToFirst()) {
-                    val pathIndex = it.getColumnIndex(MediaStore.Video.Media.DATA)
-                    path.value = it.getString(pathIndex)
-                    state.addVideo(path.value)
-                    onChange()
-
-
-                }
-            }
-        }
+//    val path = remember { mutableStateOf("") }
+    val myVideoPicker = TMediaPicker.PickSingleMedia().apply {
+        Init(MimeType.Video.Mp4, maxSize = maxSize, onMediaPicked = { uri ->
+            val videoBase64 = convertVideoUriToFile(uri, context)
+           if(videoBase64!=null) {
+               state.addVideo(videoBase64)
+               onChange()
+           }
+        })
     }
 //    LaunchedEffect(state.video ){
 //        delay(1000)
 //        state.addVideo(path.value)
 //
 //    }
+val imagePermission = RequestPermission().apply {
+    InitPermission(
+        permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        },
+    )
+}
+    val videoPermission = RequestPermission().apply {
+        InitPermission(
+            permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                Manifest.permission.READ_MEDIA_VIDEO
+            } else {
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            },
+        )
+}
 
     val controller = rememberColorPickerController()
 
@@ -393,21 +380,16 @@ internal fun QuillEditorToolBar(
                 selectedIconBackgroundColor = style.selectedIconBackgroundColor,
                 iconSelectedColor = style.iconSelectedColor,
                 onClick = {
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+                    imagePermission.requestPermission(
+                        onPermissionGranted = {
+                            myImagePicker.pickMedia()
+                        },
+                        onPermissionDenied = {
+                            // Handle permission denied
+                        },
 
-                        val permission = Manifest.permission.READ_EXTERNAL_STORAGE
-                        if (ContextCompat.checkSelfPermission(
-                                context,
-                                permission
-                            ) != PackageManager.PERMISSION_GRANTED
-                        ) {
-                            ActivityCompat.requestPermissions(activity, arrayOf(permission), 123)
-                        } else {
-                            myImagePicker.launch("image/png")
-                        }
-                    } else {
-                        myImagePicker.launch("image/png")
-                    }
+                        onPermissionFailed = {}
+                    )
                 },
                 icon = Icons.Outlined.Image
             )
@@ -417,21 +399,17 @@ internal fun QuillEditorToolBar(
                 selectedIconBackgroundColor = style.selectedIconBackgroundColor,
                 iconSelectedColor = style.iconSelectedColor,
                 onClick = {
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+                    videoPermission.requestPermission(
+                        onPermissionGranted = {
+                            myVideoPicker.pickMedia()
+                        },
+                        onPermissionDenied = {
+                            // Handle permission denied
+                        },
 
-                        val permission = Manifest.permission.READ_EXTERNAL_STORAGE
-                        if (ContextCompat.checkSelfPermission(
-                                context,
-                                permission
-                            ) != PackageManager.PERMISSION_GRANTED
-                        ) {
-                            ActivityCompat.requestPermissions(activity, arrayOf(permission), 123)
-                        } else {
-                            myVideoPicker.launch("video/mp4")
-                        }
-                    } else {
-                    myVideoPicker.launch("video/mp4")
-                }
+                        onPermissionFailed = {}
+                    )
+
             },
             icon = Icons.Outlined.VideoLibrary
         )

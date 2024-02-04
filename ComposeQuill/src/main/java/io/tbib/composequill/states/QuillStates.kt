@@ -9,6 +9,7 @@ import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.googlefonts.GoogleFont
@@ -20,7 +21,9 @@ import io.tbib.composequill.google_fonts.api.GoogleFontsItemsModel
 import io.tbib.composequill.google_fonts.control.CallGoogleMapApi
 import io.tbib.composequill.models.QuillParser
 import io.tbib.composequill.objet_box.SaveGoogleFont
-import io.tbib.composequill.services.convertFileToBase64
+import io.tbib.composequill.services.convertBase64ToImage
+import io.tbib.composequill.services.convertBase64ToVideo
+//import io.tbib.composequill.services.convertFileToBase64
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -47,8 +50,16 @@ class QuillStates internal constructor(
             String?>(null)
     private var isInit by mutableStateOf(false)
     internal var fonts by mutableStateOf<List<GoogleFont?>>(listOf())
-    private var keyApiGoogle: String? = null
-//    internal var fontSize: ENUMFontSize by mutableStateOf(ENUMFontSize.NORMAL)
+
+     var keyApiGoogle: String? = null
+
+   private lateinit var cachePath: String
+
+    @Composable
+    fun SetCache(){
+        val context = LocalContext.current
+        cachePath = context.cacheDir.absolutePath
+    }
 
 
     fun sendData(json: String) {
@@ -62,15 +73,17 @@ class QuillStates internal constructor(
 
                 QuillType.IMAGE -> {
                     if (item.value.isNullOrEmpty()) continue
-//                    val decodedString = Base64.decode(item.value, Base64.DEFAULT)
-//                    val decodedBitmap =
-//                        BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
-                    image = item.value
+
+                    convertBase64ToImage(item.value, cachePath) { file ->
+                        image = file.absolutePath
+                    }
                 }
 
                 QuillType.VIDEO -> {
                     if (item.value.isNullOrEmpty()) continue
-                    video = item.value
+                    convertBase64ToVideo(item.value, cachePath) { file ->
+                        video = file.absolutePath
+                    }
                 }
             }
 
@@ -116,22 +129,20 @@ class QuillStates internal constructor(
     internal fun addImage(newImage: String) {
         if (newImage.isEmpty()) return
         if (newImage == image) return
-        val base64 = convertFileToBase64(newImage)
 //        val decodedString = Base64.decode(base64, Base64.DEFAULT)
 //        val decodedBitmap =
 //            BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
-        image = base64
+        image = newImage
         video = null
 
     }
 
     internal fun addVideo(newVideo: String) {
         if (newVideo.isEmpty()) return
-        if (convertFileToBase64(newVideo) == video) return
+        if (newVideo == video) return
         loading = true
         image = null
-        val base64 = convertFileToBase64(newVideo)
-        video = base64
+        video = newVideo
 
 
     }
@@ -146,14 +157,15 @@ class QuillStates internal constructor(
 
     fun useGoogleFont(key: String, context: Context) {
         if (keyApiGoogle == key) return
-        keyApiGoogle = key
+
         SaveGoogleFont.init(context)
+        keyApiGoogle = key
         getFonts()
 
     }
 
     @OptIn(DelicateCoroutinesApi::class)
-    private fun getFonts() {
+     fun getFonts() {
         if (keyApiGoogle == null) return
         val fontBox = SaveGoogleFont.get().boxFor(GoogleFontsItemsModel::class.java)
         val getFonts = fontBox.all
@@ -181,7 +193,7 @@ class QuillStates internal constructor(
                     it.isInit,
                     it.keyApiGoogle,
 //                    it.fontSize,
-                    it.fonts
+//                  it.fonts
                 )
             },
 
@@ -200,7 +212,7 @@ class QuillStates internal constructor(
                 quillStates.isInit = it[4] as Boolean
                 quillStates.keyApiGoogle = it[5] as String?
 //                quillStates.fontSize =  it[6] as ENUMFontSize
-                quillStates.fonts = it[6] as List<GoogleFont>
+//                quillStates.fonts = (it[6] as List<String>).map { e -> GoogleFont(e) }
                 quillStates
             }
         )

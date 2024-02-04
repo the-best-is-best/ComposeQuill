@@ -1,7 +1,6 @@
 package io.tbib.composequill.components
 
 import android.graphics.BitmapFactory
-import android.util.Base64
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -28,10 +27,10 @@ internal fun BuildQuillWithImage(
     readOnly: Boolean,
     style: QuillEditorStyle
 ) {
-    val decodedString = Base64.decode(state.image, Base64.DEFAULT)
-    val decodedBitmap =
-        BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
-    val image = decodedBitmap.asImageBitmap()
+//    val decodedString = Base64.decode(state.image, Base64.DEFAULT)
+//    val decodedBitmap =
+//        BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+    val image = BitmapFactory.decodeFile(state.image).asImageBitmap()
     val height = if (image.height > 200) 200 else image.height
 
     Box(

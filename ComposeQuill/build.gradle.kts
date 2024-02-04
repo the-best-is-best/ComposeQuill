@@ -147,7 +147,9 @@ dependencies {
     val objectboxVersion = "3.7.1"
     implementation("androidx.activity:activity-compose:1.8.2")
     implementation(platform("androidx.compose:compose-bom:2024.01.00"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("io.github.the-best-is-best:media-picker:1.0.1")
+    implementation("io.github.the-best-is-best:compose-request-permission:1.0.0")
+
     implementation("io.github.the-best-is-best:ComposeSearchableDropdown:1.0.1")
     implementation("androidx.compose.ui:ui:1.6.0")
     implementation("androidx.compose.material3:material3:1.2.0-rc01")

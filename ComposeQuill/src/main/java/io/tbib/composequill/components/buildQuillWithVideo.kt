@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.media.MediaMetadataRetriever
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.MediaController
 import android.widget.VideoView
@@ -26,12 +27,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.net.toUri
-import io.tbib.composequill.services.convertBase64ToVideo
 import io.tbib.composequill.states.QuillStates
 import kotlinx.coroutines.delay
 import java.io.File
@@ -60,7 +59,6 @@ internal fun BuildQuillWithVideo(
     readOnly: Boolean,
     style: QuillEditorStyle
 ) {
-    val context = LocalContext.current
     var videoFile by rememberSaveable {
         mutableStateOf<File?>(null)
     }
@@ -80,31 +78,37 @@ internal fun BuildQuillWithVideo(
             videoFile = null
             thumbnail = null
             delay(1000)
-            convertBase64ToVideo(
-                state.video!!,
-                context.filesDir.absolutePath
-            ) { file ->
-                videoFile = file
+
                 val retriever = MediaMetadataRetriever()
-                retriever.setDataSource(file.absolutePath)
-                thumbnail = retriever.getFrameAtTime(0, MediaMetadataRetriever.OPTION_CLOSEST)
-                val width =
-                    retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)
-                        ?.toInt() ?: 0
-                val height =
-                    retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)
-                        ?.toInt() ?: 0
-                resolution = ResolutionPolicy(
-                    ResolutionPolicy.FitPolicy.FIT_WIDTH,
-                    width.toFloat() / height.toFloat()
-                ).apply(
-                    width,
-                    height
-                )
-                state.loading = false
+                try {
+                    videoFile = File(state.video!!)
+
+                    retriever.setDataSource(videoFile!!.absolutePath)
+                    thumbnail = retriever.getFrameAtTime(0, MediaMetadataRetriever.OPTION_CLOSEST)
+                    val width =
+                        retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)
+                            ?.toInt() ?: 0
+                    val height =
+                        retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)
+                            ?.toInt() ?: 0
+                    resolution = ResolutionPolicy(
+                        ResolutionPolicy.FitPolicy.FIT_WIDTH,
+                        width.toFloat() / height.toFloat()
+                    ).apply(
+                        width,
+                        height
+                    )
+                    state.loading = false
+                } catch (e: Exception) {
+                    //e.printStackTrace()
+                    Log.d("Quill", "Error: ${e.message}")
+                    state.loading = false
+                }finally {
+                    retriever.release()
+                }
             }
 
-        }
+
     }
     Box(
         modifier = Modifier
