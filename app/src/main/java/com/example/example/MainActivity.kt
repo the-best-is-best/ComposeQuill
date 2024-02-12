@@ -8,13 +8,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.example.ui.theme.ExampleTheme
 import io.tbib.composequill.QuillEditor
+import io.tbib.composequill.QuillStyle
 import io.tbib.composequill.components.QuillEditorStyle
 import io.tbib.composequill.components.QuillEditorToolBarStyle
 import io.tbib.composequill.states.rememberQuillStates
@@ -56,7 +59,11 @@ class MainActivity : ComponentActivity() {
                             ),
                             showImagePicker =   true,
                             showVideoPicker = true,
-                            quillEditorStyle = QuillEditorStyle(),
+                            quillStyle = QuillStyle(
+                                modifier = Modifier
+                                    .background(Color.Red)
+                                    .padding(10.dp).clip(shape = RoundedCornerShape(20.dp)),
+                            ),
                             quillStates = quillStates,
                             onChange = {
                                 Log.d("QuillEditor", "onCreate: $it")

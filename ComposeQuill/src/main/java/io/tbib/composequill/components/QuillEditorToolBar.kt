@@ -43,8 +43,10 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 import io.tbib.composequill.components.styles.DialogStyle
-import io.tbib.composequill.services.convertUriImageToFile
-import io.tbib.composequill.services.convertVideoUriToFile
+import io.tbib.composequill.services.convertBase64ToImage
+import io.tbib.composequill.services.convertBase64ToVideo
+import io.tbib.composequill.services.convertUriToBase64
+//
 import io.tbib.composequill.states.QuillStates
 import io.tbib.composerequestpermission.RequestPermission
 import io.tbib.tcomposemediapicker.MimeType
@@ -72,23 +74,30 @@ internal fun QuillEditorToolBar(
 
 
 ) {
+    val cachePath = LocalContext.current.cacheDir.absolutePath
     val context = LocalContext.current
     val myImagePicker = TMediaPicker.PickSingleMedia().apply {
         Init(MimeType.Image.Png, onMediaPicked = { uri ->
-           val imageBase= convertUriImageToFile(uri, context)
+           val imageBase= convertUriToBase64( context,uri)
             if(imageBase!=null) {
-                state.addImage(imageBase)
-                onChange()
+                convertBase64ToImage(imageBase, cachePath) { file ->
+                    state.addImage(file.absolutePath)
+                    onChange()
+                }
+
             }
         })
     }
 //    val path = remember { mutableStateOf("") }
     val myVideoPicker = TMediaPicker.PickSingleMedia().apply {
         Init(MimeType.Video.Mp4, maxSize = maxSize, onMediaPicked = { uri ->
-            val videoBase64 = convertVideoUriToFile(uri, context)
+            val videoBase64 = convertUriToBase64( context,uri)
            if(videoBase64!=null) {
-               state.addVideo(videoBase64)
-               onChange()
+               convertBase64ToVideo(videoBase64, cachePath) { file ->
+                   state.addVideo(file.absolutePath)
+                   onChange()
+               }
+
            }
         })
     }
