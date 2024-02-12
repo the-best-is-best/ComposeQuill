@@ -36,7 +36,7 @@ afterEvaluate {
         publications.create<MavenPublication>("release") {
             groupId = "io.github.the-best-is-best"
             artifactId = "composequill"
-            version = "1.0.1"
+            version = "1.0.2"
             from(components["release"])
 
 
