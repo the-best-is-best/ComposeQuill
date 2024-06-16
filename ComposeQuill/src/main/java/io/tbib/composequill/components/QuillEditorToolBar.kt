@@ -25,6 +25,8 @@ import androidx.compose.material.icons.outlined.FormatSize
 import androidx.compose.material.icons.outlined.FormatStrikethrough
 import androidx.compose.material.icons.outlined.FormatUnderlined
 import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material.icons.outlined.Subscript
+import androidx.compose.material.icons.outlined.Superscript
 import androidx.compose.material.icons.outlined.VideoLibrary
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,6 +40,7 @@ import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -418,8 +421,40 @@ val imagePermission = RequestPermission().apply {
                         onPermissionFailed = {}
                     )
 
+                },
+                icon = Icons.Outlined.VideoLibrary
+            )
+
+
+        QuillEditorStyleButton(
+            onClick = {
+                if (state.textState.currentSpanStyle.baselineShift == BaselineShift.Superscript) {
+                    state.resetScript()
+                } else {
+                    state.superScript()
+                }
             },
-            icon = Icons.Outlined.VideoLibrary
+            iconColor = style.iconColor,
+            selectedIconBackgroundColor = style.selectedIconBackgroundColor,
+            iconSelectedColor = style.iconSelectedColor,
+            isSelected = state.textState.currentSpanStyle.baselineShift == BaselineShift.Superscript,
+            icon = Icons.Outlined.Superscript
+        )
+
+
+        QuillEditorStyleButton(
+            onClick = {
+                if (state.textState.currentSpanStyle.baselineShift == BaselineShift.Subscript) {
+                    state.resetScript()
+                } else {
+                    state.subScript()
+                }
+            },
+            iconColor = style.iconColor,
+            selectedIconBackgroundColor = style.selectedIconBackgroundColor,
+            iconSelectedColor = style.iconSelectedColor,
+            isSelected = state.textState.currentSpanStyle.baselineShift == BaselineShift.Subscript,
+            icon = Icons.Outlined.Subscript
         )
     }
 }

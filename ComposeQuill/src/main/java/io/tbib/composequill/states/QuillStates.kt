@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.googlefonts.GoogleFont
+import androidx.compose.ui.text.style.BaselineShift
 import com.mohamedrejeb.richeditor.model.RichTextState
 import io.tbib.composequill.components.ENUMFontSize
 import io.tbib.composequill.components.toFontSize
@@ -92,6 +93,45 @@ class QuillStates internal constructor(
         isInit = true
 
     }
+
+    internal fun superScript() {
+        resetScript()
+        textState.toggleSpanStyle(
+            SpanStyle(
+                fontSize = textState.currentSpanStyle.fontSize,
+                baselineShift = BaselineShift.Superscript
+            )
+        )
+    }
+
+    internal fun subScript() {
+        resetScript()
+        textState.toggleSpanStyle(
+            SpanStyle(
+                fontSize = textState.currentSpanStyle.fontSize,
+                baselineShift = BaselineShift.Subscript
+            )
+        )
+    }
+
+    internal fun resetScript() {
+        if (textState.currentSpanStyle.baselineShift == BaselineShift.Subscript) {
+            textState.toggleSpanStyle(
+                SpanStyle(
+                    fontSize = textState.currentSpanStyle.fontSize,
+                    baselineShift = BaselineShift(0.5000001f)
+                )
+            )
+        } else if (textState.currentSpanStyle.baselineShift == BaselineShift.Superscript) {
+            textState.toggleSpanStyle(
+                SpanStyle(
+                    fontSize = textState.currentSpanStyle.fontSize,
+                    baselineShift = BaselineShift(-0.5000001f)
+                )
+            )
+        }
+    }
+
 
     internal fun changeTextColor(color: Color) {
         textState.toggleSpanStyle(

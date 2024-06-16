@@ -60,6 +60,7 @@ internal fun QuillEditorBuilder(
             cursorBrush = style.cursorBrush,
             decorationBox = style.decorationBox,
 
+
             )
     else
         RichText(
