@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -5,7 +7,7 @@ plugins {
     id("maven-publish")
     id("signing")
     alias(libs.plugins.compose.compiler)
-
+    id("com.vanniktech.maven.publish") version "0.28.0"
 }
 apply(plugin = "maven-publish")
 apply(plugin = "signing")
@@ -25,20 +27,13 @@ buildscript {
 
     }
 }
+mavenPublishing {
+    publishToMavenCentral(SonatypeHost.S01)
 
-afterEvaluate {
-    tasks.withType<PublishToMavenLocal> {
-        // Make 'publishReleasePublicationToMavenLocal' depend on 'assembleRelease'
-        dependsOn("assembleRelease")
-    }
-    publishing {
-
-        publications.create<MavenPublication>("release") {
-            groupId = "io.github.the-best-is-best"
-            artifactId = "composequill"
-            version = "1.0.3"
-            from(components["release"])
-
+    signAllPublications()
+}
+mavenPublishing {
+    coordinates("io.github.the-best-is-best", "composequill", "1.0.3")
 
 
             //  artifact("$buildDir/outputs/aar/ComposeQuill-release.aar")
@@ -70,36 +65,6 @@ afterEvaluate {
                     }
                 }
             }
-        }
-        repositories {
-
-            maven {
-                name = "OSSRH-snapshots"
-                url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-                credentials {
-                    username = System.getenv("MAVEN_NAME")
-                    password = System.getenv("MAVEN_TOKEN")
-                }
-//            }
-//            maven {
-//                name = "LocalMaven"
-//                url = uri("$buildDir/maven")
-                //   }
-//                maven {
-//                    name = "GitHubPackages"
-//                    url = uri("https://maven.pkg.github.com/the-best-is-best/ComposeQuill")
-//                    credentials {
-//                        username = "the-best-is-best"
-//                        password =
-//                            System.getenv("BUILD_MAVEN")
-//                    }
-//                }
-            }
-
-
-        }
-
-    }
 
 }
 
