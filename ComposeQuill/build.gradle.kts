@@ -1,10 +1,11 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    kotlin("plugin.serialization") version "1.9.22"
+    kotlin("plugin.serialization") version "2.0.0"
     id("maven-publish")
     id("signing")
-    // id ("com.vanniktech.maven.publish") version "0.27.0"
+    alias(libs.plugins.compose.compiler)
+
 }
 apply(plugin = "maven-publish")
 apply(plugin = "signing")
@@ -18,10 +19,9 @@ java {
 }
 //
 buildscript {
-    val objectboxVersion = "3.7.1"
 
     dependencies {
-        classpath("io.objectbox:objectbox-gradle-plugin:$objectboxVersion")
+        classpath("io.objectbox:objectbox-gradle-plugin:4.0.1")
 
     }
 }
@@ -115,9 +115,7 @@ android {
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.8"
-    }
+
     defaultConfig {
         minSdk = 21
 
@@ -144,22 +142,21 @@ android {
 }
 
 dependencies {
-    val objectboxVersion = "3.7.1"
-    implementation("androidx.activity:activity-compose:1.8.2")
-    implementation(platform("androidx.compose:compose-bom:2024.02.00"))
+    implementation("androidx.activity:activity-compose:1.9.0")
+    implementation(platform("androidx.compose:compose-bom:2024.06.00"))
     implementation("io.github.the-best-is-best:media-picker:1.0.3")
     implementation("io.github.the-best-is-best:compose-request-permission:1.0.0")
     implementation("androidx.documentfile:documentfile:1.0.1")
 
-    implementation("io.github.the-best-is-best:ComposeSearchableDropdown:1.0.1")
-    implementation("androidx.compose.ui:ui:1.6.1")
-    implementation("androidx.compose.material3:material3:1.2.0")
-    implementation("com.mohamedrejeb.richeditor:richeditor-compose:1.0.0-rc01")
-    implementation("androidx.compose.material:material-icons-extended:1.6.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+    implementation("io.github.the-best-is-best:ComposeSearchableDropdown:2.0.1")
+    implementation("androidx.compose.ui:ui:1.6.8")
+    implementation("androidx.compose.material3:material3:1.2.1")
+    implementation("com.mohamedrejeb.richeditor:richeditor-compose:1.0.0-rc05-k2")
+    implementation("androidx.compose.material:material-icons-extended:1.6.8")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
     implementation("com.github.skydoves:colorpicker-compose:1.0.7")
-    implementation("androidx.compose.ui:ui-text-google-fonts:1.6.1")
+    implementation("androidx.compose.ui:ui-text-google-fonts:1.6.8")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("io.objectbox:objectbox-kotlin:$objectboxVersion")
+    implementation("io.objectbox:objectbox-kotlin:4.0.1")
 }

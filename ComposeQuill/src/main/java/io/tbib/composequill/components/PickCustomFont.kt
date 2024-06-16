@@ -9,6 +9,7 @@ import androidx.compose.ui.text.googlefonts.Font
 import androidx.compose.ui.text.googlefonts.GoogleFont
 import com.tbib.composequill.R
 import com.tbib.composesearchabledropdown.SearchableDropDown
+import com.tbib.composesearchabledropdown.states.rememberDropdownStates
 import io.tbib.composequill.states.QuillStates
 
 private val fontProvider = GoogleFont.Provider(
@@ -21,22 +22,24 @@ private val fontProvider = GoogleFont.Provider(
 internal fun SelectFont(
     state: QuillStates,
     onDismissRequest: () -> Unit,
-    onChange: (value: FontFamily) -> Unit,
-    initFont: GoogleFont?
+    onChange: (fontFamily: FontFamily) -> Unit,
+    initFont: String?
 ) {
     val fonts = state.fonts
+    val fontState = rememberDropdownStates<String?>(initFont)
 
     SearchableDropDown(
-        listOfItems = fonts, // provide the list of items of any type you want to populated in the dropdown,
+        listOfItems = fonts.map { it?.name }, // provide the list of items of any type you want to populated in the dropdown,
         modifier = Modifier.fillMaxWidth(),
         onDropDownItemSelected = { item -> // Returns the item selected in the dropdown
             onChange(
                 FontFamily(
                     Font(
-                        googleFont = GoogleFont(item!!.name),
+                        googleFont = GoogleFont(item!!),
                         fontProvider = fontProvider
                     )
-                )
+                ),
+
             )
             onDismissRequest()
         },
@@ -44,15 +47,15 @@ internal fun SelectFont(
         enable = true,
         placeholder = { Text(text = "Select Font") },
         dropdownItem = { v ->
-            Text(text = v!!.name)
+            Text(text = v!!)
         },
         selectedOptionTextDisplay = { v ->
-            v!!.name
+            v!!
         },
         searchIn = {
-            it!!.name
+            it!!
         },
-        defaultItem = initFont,
+        state = fontState,
 
         )
 }

@@ -46,13 +46,12 @@ import io.tbib.composequill.components.styles.DialogStyle
 import io.tbib.composequill.services.convertBase64ToImage
 import io.tbib.composequill.services.convertBase64ToVideo
 import io.tbib.composequill.services.convertUriToBase64
-//
 import io.tbib.composequill.states.QuillStates
 import io.tbib.composerequestpermission.RequestPermission
 import io.tbib.tcomposemediapicker.MimeType
 import io.tbib.tcomposemediapicker.TMediaPicker
 
-//
+
 data class QuillEditorToolBarStyle(
     val modifier: Modifier = Modifier,
     val iconColor: Color? = null,
@@ -310,8 +309,8 @@ val imagePermission = RequestPermission().apply {
 
                 }, {
                     state.changeFont(it)
-
                 },
+
                     null
                 )
             }
