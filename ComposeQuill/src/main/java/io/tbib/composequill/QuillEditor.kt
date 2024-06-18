@@ -25,6 +25,7 @@ import io.tbib.composequill.components.QuillEditorToolBar
 import io.tbib.composequill.components.QuillEditorToolBarStyle
 import io.tbib.composequill.components.styles.DialogStyle
 import io.tbib.composequill.enum.QuillType
+import io.tbib.composequill.extensions.fixHtml
 import io.tbib.composequill.models.QuillParser
 import io.tbib.composequill.services.convertFileToBase64
 import io.tbib.composequill.services.rememberImeState
@@ -70,7 +71,11 @@ if(!quillStates.keyApiGoogle .isNullOrEmpty()){
     LaunchedEffect(key1 = imeState.value) {
         scrollState.animateScrollTo(scrollState.maxValue, tween(300))
         onChange(
-            toJson(quillStates.textState.toHtml(),if(quillStates.image==null) null else convertFileToBase64(quillStates.image!!), if(quillStates.video==null) null else convertFileToBase64(quillStates.video!!))
+            toJson(
+                quillStates.textState.toHtml().fixHtml(),
+                if (quillStates.image == null) null else convertFileToBase64(quillStates.image!!),
+                if (quillStates.video == null) null else convertFileToBase64(quillStates.video!!)
+            )
         )
 
     }
@@ -92,7 +97,15 @@ if(!quillStates.keyApiGoogle .isNullOrEmpty()){
                     quillStates,
                     onChange = {
                         onChange(
-                            toJson(quillStates.textState.toHtml(),if(quillStates.image==null) null else convertFileToBase64(quillStates.image!!), if(quillStates.video==null) null else convertFileToBase64(quillStates.video!!))
+                            toJson(
+                                quillStates.textState.toHtml().fixHtml(),
+                                if (quillStates.image == null) null else convertFileToBase64(
+                                    quillStates.image!!
+                                ),
+                                if (quillStates.video == null) null else convertFileToBase64(
+                                    quillStates.video!!
+                                )
+                            )
                         )
                     },
                     style = quillEditorToolBarStyle,
