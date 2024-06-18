@@ -1,22 +1,29 @@
 package com.example.example
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import com.example.example.ui.theme.ExampleTheme
 import io.tbib.composequill.QuillEditor
 import io.tbib.composequill.QuillStyle
@@ -41,7 +48,7 @@ fun readJsonFileFromAssets(context: Context, fileName: String): String {
 //import com.tbib.composequill.components.TextRichToolBarStyle
 
 class MainActivity : ComponentActivity() {
-
+    var data: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -60,8 +67,22 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Column(modifier = Modifier.background(Color.White)) {
-
+                    Column(
+                        modifier = Modifier.background(Color.White),
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Button(onClick = {
+                            val clipboard =
+                                ContextCompat.getSystemService(
+                                    context,
+                                    ClipboardManager::class.java
+                                )
+                            val clip = ClipData.newPlainText("simple text", data)
+                            clipboard?.setPrimaryClip(clip)
+                        }) {
+                            Text("Copy")
+                        }
 
                         //quillStates.init(newData)
                         QuillEditor(
@@ -76,13 +97,14 @@ class MainActivity : ComponentActivity() {
                             showVideoPicker = true,
                             quillStyle = QuillStyle(
                                 modifier = Modifier
-                                    .background(Color.Red)
+                                    .background(Color(0xffF5DEB3))
                                     .padding(10.dp)
                                     .clip(shape = RoundedCornerShape(20.dp)),
                             ),
                             quillStates = quillStates,
                             onChange = {
                                 Log.d("QuillEditor", "onCreate: $it")
+                                data = it
                             })
 
                     }

@@ -1,7 +1,7 @@
 [
   {
     "type": "TEXT",
-    "value": "<p><span style=\"color: rgba(18, 255, 53, 1.0); background: rgba(255, 22, 154, 1.0);\">What is this H<sub>2</sub>O &equals;</span></p><br><p><span style=\"color: rgba(18, 255, 53, 1.0); background: rgba(255, 22, 154, 1.0);\">what is this equal to 7<sup>3</sup> &equals;</span></p>"
+    "value": "<p><span style=\"color: rgba(255, 255, 255, 1.0); background: rgba(0, 0, 0, 1.0);\">What is this <span style=\"background: rgba(51, 255, 34, 1.0);\"><b>H<sub>2</sub>O</b></span> &equals;</span></p><br><p></sub><span style=\"color: rgba(255, 255, 255, 1.0); background: rgba(0, 0, 0, 1.0);\">what is this<b> equal</b> to 7<sup>3</sup> &equals;</span></p>"
   },
   {
     "type": "IMAGE"
