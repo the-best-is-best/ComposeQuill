@@ -33,7 +33,7 @@ mavenPublishing {
     signAllPublications()
 }
 mavenPublishing {
-    coordinates("io.github.the-best-is-best", "composequill", "1.0.3")
+    coordinates("io.github.the-best-is-best", "composequill", "1.0.4")
 
 
             //  artifact("$buildDir/outputs/aar/ComposeQuill-release.aar")
