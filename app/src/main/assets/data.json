@@ -1,0 +1,12 @@
+[
+  {
+    "type": "TEXT",
+    "value": "<p><span style=\"color: rgba(18, 255, 53, 1.0); background: rgba(255, 22, 154, 1.0);\">What is this H<sub>2</sub>O &equals;</span></p><br><p><span style=\"color: rgba(18, 255, 53, 1.0); background: rgba(255, 22, 154, 1.0);\">what is this equal to 7<sup>3</sup> &equals;</span></p>"
+  },
+  {
+    "type": "IMAGE"
+  },
+  {
+    "type": "VIDEO"
+  }
+]

@@ -1,6 +1,8 @@
 package io.tbib.composequill
 
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -10,13 +12,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.getSystemService
 import io.tbib.composequill.components.BuildQuillOnly
 import io.tbib.composequill.components.BuildQuillWithImage
 import io.tbib.composequill.components.BuildQuillWithVideo
@@ -83,6 +89,7 @@ if(!quillStates.keyApiGoogle .isNullOrEmpty()){
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        val context = LocalContext.current
         Column(
             modifier = Modifier
                 .padding(
@@ -90,6 +97,14 @@ if(!quillStates.keyApiGoogle .isNullOrEmpty()){
                 ), horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (!readOnly) {
+                Button(onClick = {
+                    val clipboard =
+                        getSystemService<ClipboardManager>(context, ClipboardManager::class.java)
+                    val clip = ClipData.newPlainText("simple text", quillStates.textState.toHtml())
+                    clipboard?.setPrimaryClip(clip)
+                }) {
+                    Text("Copy")
+                }
                 QuillEditorToolBar(
                     showImagePicker,
                     showVideoPicker,
