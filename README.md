@@ -18,7 +18,7 @@ common rich text editor features
 It depend on <a href= "https://github.com/MohamedRejeb/Compose-Rich-Editor/tree/main">
 Compose-Rich-Editor </a>
 
-# Note please if any problem in html open issue and please use v 1.0.4 for fix sup abd sub in html
+# Note please if any problem in html open issue and please use v 1.0.4 for fix sup and sub in html
 
 ## Screenshots
 
