@@ -4,6 +4,12 @@
 <a href="https://android-arsenal.com/api?level=21" rel="nofollow"><img alt="API" src="https://camo.githubusercontent.com/0eda703da08220e08354f624a3fc0023f10416a302565c69c3759bf6e0800d40/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4150492d32312532422d627269676874677265656e2e7376673f7374796c653d666c6174" data-canonical-src="https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat" style="max-width: 100%;"></a>
 <a href="https://github.com/the-best-is-best/"><img alt="Profile" src="https://img.shields.io/badge/github-%23181717.svg?&style=for-the-badge&logo=github&logoColor=white" height="20"/></a>
 <a href="https://central.sonatype.com/search?q=io.github.the-best-is-best&smo=true"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.github.the-best-is-best/composequill"/></a>
+<a href= "https://cocoapods.org/pods/TTextRitchEditor">
+ <img src="https://img.shields.io/cocoapods/v/TTextRitchEditor.svg?style=flat" />
+ </a>
+<a href="https://github.com/the-best-is-best/TTextRitchEditor"> 
+  <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="20" height="20"/>
+</a>
 </div>
 
 A Compose Quill library for both Jetpack Compose for android, fully customizable and supports the
