@@ -1,128 +1,45 @@
-<h1 align="center">Compose Quill</h1><br>
-<div align="center">
-<a href="https://opensource.org/licenses/Apache-2.0"><img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/></a>
-<a href="https://android-arsenal.com/api?level=21" rel="nofollow"><img alt="API" src="https://camo.githubusercontent.com/0eda703da08220e08354f624a3fc0023f10416a302565c69c3759bf6e0800d40/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4150492d32312532422d627269676874677265656e2e7376673f7374796c653d666c6174" data-canonical-src="https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat" style="max-width: 100%;"></a>
-<a href="https://github.com/the-best-is-best/"><img alt="Profile" src="https://img.shields.io/badge/github-%23181717.svg?&style=for-the-badge&logo=github&logoColor=white" height="20"/></a>
-<a href="https://central.sonatype.com/search?q=io.github.the-best-is-best&smo=true"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.github.the-best-is-best/composequill"/></a>
-<a href= "https://cocoapods.org/pods/TTextRitchEditor">
- <img src="https://img.shields.io/cocoapods/v/TTextRitchEditor.svg?style=flat" />
- </a>
-<a href="https://github.com/the-best-is-best/TTextRitchEditor"> 
-  <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="20" height="20"/>
-</a>
-</div>
+# Compose Multiplatform Application
 
-A Compose Quill library for both Jetpack Compose for android, fully customizable and supports the
-common rich text editor features
+## Before running!
 
-- **Easy to use**: Compose Quill's API leverages Kotlin's language features for simplicity and
-  minimal boilerplate.
-- **WYSIWYG**: Compose Rich Editor is a WYSIWYG editor that supports the most common text styling
-  features.
-- **Future**: Support add image and video from gallery (support png in image and mp4 to video)
+- check your system with [KDoctor](https://github.com/Kotlin/kdoctor)
+- install JDK 17 or higher on your machine
+- add `local.properties` file to the project root and set a path to Android SDK there
 
-It depend on <a href= "https://github.com/MohamedRejeb/Compose-Rich-Editor/tree/main">
-Compose-Rich-Editor </a>
+### Android
 
-# Note please if any problem in html open issue and please use v 1.0.4 for fix sup and sub in html
+To run the application on android device/emulator:
 
-## Screenshots
+- open project in Android Studio and run imported android run configuration
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/the-best-is-best/ComposeQuill/master/github_assets/1.png" height="300">
-</p>
+To build the application bundle:
 
-## Download
+- run `./gradlew :composeApp:assembleDebug`
+- find `.apk` file in `composeApp/build/outputs/apk/debug/composeApp-debug.apk`
+  Run android simulator UI tests: `./gradlew :composeApp:pixel5Check`
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.the-best-is-best/composequill)](https://central.sonatype.com/artifact/io.github.the-best-is-best/composequill)
+### Desktop
 
-Compose Quill is available on `mavenCentral()`.
+Run the desktop application: `./gradlew :composeApp:run`
+Run desktop UI tests: `./gradlew :composeApp:jvmTest`
 
-```kotlin
-implementation("io.github.the-best-is-best:composequill:1.0.0-rc3")
-```
+### iOS
 
-## How to use
+To run the application on iPhone device/simulator:
 
-```kotlin
-QuillEditor(
-    modifier = Modifier
-        .padding(0.dp)
-        .background(Color.White),
-    quillStates = quillStates,
-  textRichToolBarStyle = TextRichToolBarStyle(
-    iconColor = Color.Black,
-    iconSelectedColor = Color.White,
+- Open `iosApp/iosApp.xcproject` in Xcode and run standard configuration
+- Or
+  use [Kotlin Multiplatform Mobile plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile)
+  for Android Studio
+  Run iOS simulator UI tests: `./gradlew :composeApp:iosSimulatorArm64Test`
 
-    ),
+### JS Browser (Experimental)
 
-  onChange = {
-    Log.d("QuillEditor", "onCreate: $it")
-  })
-```
+Run the browser application: `./gradlew :composeApp:jsBrowserDevelopmentRun --continue`
+Run browser UI tests: `./gradlew :composeApp:jsBrowserTest`
 
-<br></br>
+### Wasm Browser (Alpha)
 
-### Setup
+Run the browser application: `./gradlew :composeApp:wasmJsBrowserDevelopmentRun --continue`
+Run browser UI tests: `./gradlew :composeApp:wasmJsBrowserTest`
 
-#### You can replace or send data json to display
-
-##### First use rememberQuillStates()
-
-```kotlin
-val quillStates = rememberQuillStates()
-```
-
-and use `quillStates`
-
-```kotlin
-quillStates.sendData(json)
-```
-
-note json get it from onChange
-
-<br></br>
-
-### Style
-
-#### quillStyle
-
-use it for styling the quill parent of Toolbar and Editor
-
-#### quillEditorStyle
-
-use it for style editor typing
-
-#### quillEditorToolBarStyle
-
-use it for editor tool style
-
-#### onChange
-
-to receive json to save it
-
-<br></br>
-
-#### Features
-
-- Can make `showImagePicker` = Boolean ,
-  `showVideoPicker` = Boolean,
-
-### V1.0.0
-
-- Can change font size
-- Can change font family use google font
-- Can change font color
-
-## Note
-
-- To use useGoogleFont need create api key in google console and active google font api
-- to active it need
-
-<br></br>
-K
-
-```kotlin
-
-quillStates.useGoogleFont("your api key")
-```
