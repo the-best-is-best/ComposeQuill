@@ -1,41 +1,35 @@
-@file:Suppress("UnstableApiUsage")
-
-import org.gradle.api.initialization.resolve.RepositoriesMode.FAIL_ON_PROJECT_REPOS
-
-include(":ComposeQuill")
-
+rootProject.name = "ComposeQuillLib"
 
 pluginManagement {
-    enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
     repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-
-    }
-}
-dependencyResolutionManagement {
-    repositoriesMode.set(FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-        //   mavenLocal()
-         maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots/")
-
-    }
-
-    versionCatalogs {
-        create("libsx") {
-            from(files("./gradle/libs.versions.toml"))
+        google {
+            content { 
+              	includeGroupByRegex("com\\.android.*")
+              	includeGroupByRegex("com\\.google.*")
+              	includeGroupByRegex("androidx.*")
+                includeGroupByRegex("android.*")
+            }
         }
+        gradlePluginPortal()
+        mavenCentral()
     }
-
-
 }
 
-rootProject.name = "example"
-include(":app")
-//include(":tTextRichEditor")
+dependencyResolutionManagement {
+    repositories {
+        google {
+            content { 
+              	includeGroupByRegex("com\\.android.*")
+              	includeGroupByRegex("com\\.google.*")
+              	includeGroupByRegex("androidx.*")
+                includeGroupByRegex("android.*")
+            }
+        }
+        mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/wasm/experimental")
+        maven("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
+    }
+}
 include(":ComposeQuill")
-include(":ComposeSearchableDropdown")
+include(":simple:composeApp")
+

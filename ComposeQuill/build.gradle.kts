@@ -1,127 +1,219 @@
-import com.vanniktech.maven.publish.SonatypeHost
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform.getCurrentOperatingSystem
+import org.jetbrains.compose.ExperimentalComposeLibrary
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    kotlin("plugin.serialization") version "2.0.0"
+    alias(libs.plugins.multiplatform)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.compose)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
     id("maven-publish")
     id("signing")
-    alias(libs.plugins.compose.compiler)
-    id("com.vanniktech.maven.publish") version "0.28.0"
+    alias(libs.plugins.maven.publish)
 }
+
+
+
+
 apply(plugin = "maven-publish")
 apply(plugin = "signing")
-apply(plugin = "io.objectbox")
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
 
 
-}
-//
-buildscript {
-
-    dependencies {
-        classpath("io.objectbox:objectbox-gradle-plugin:4.0.1")
-
+tasks.withType<PublishToMavenRepository> {
+    val isMac = getCurrentOperatingSystem().isMacOsX
+    onlyIf {
+        isMac.also {
+            if (!isMac) logger.error(
+                """
+                    Publishing the library requires macOS to be able to generate iOS artifacts.
+                    Run the task on a mac or use the project GitHub workflows for publication and release.
+                """
+            )
+        }
     }
 }
-mavenPublishing {
-    publishToMavenCentral(SonatypeHost.S01)
 
-    signAllPublications()
-}
+
+
 mavenPublishing {
     coordinates("io.github.the-best-is-best", "composequill", "1.0.4")
 
 
-            //  artifact("$buildDir/outputs/aar/ComposeQuill-release.aar")
-            //artifact("$buildDir/libs/ComposeQuill-release.jar")
-            // Provide artifacts information required by Maven Central
-            pom {
-                name.set("Compose Quill")
-                description.set("A Compose library that provides a rich text editor support image or video.")
-                url.set("https://github.com/the-best-is-best/ComposeQuill")
-                licenses {
-                    license {
-                        name.set("Apache-2.0")
-                        url.set("https://opensource.org/licenses/Apache-2.0")
-                    }
-                }
-                issueManagement {
-                    system.set("Github")
-                    url.set("https://github.com/the-best-is-best/ComposeQuill/issues")
-                }
-                scm {
-                    connection.set("https://github.com/the-best-is-best/ComposeQuill.git")
-                    url.set("https://github.com/the-best-is-best/ComposeQuill")
-                }
-                developers {
-                    developer {
-                        id.set("MichelleRaouf")
-                        name.set("Michelle Raouf")
-                        email.set("eng.michelle.raouf@gmail.com")
-                    }
+    //  artifact("$buildDir/outputs/aar/ComposeQuill-release.aar")
+    //artifact("$buildDir/libs/ComposeQuill-release.jar")
+    // Provide artifacts information required by Maven Central
+    pom {
+        name.set("Compose Quill")
+        description.set("A Compose library that provides a rich text editor support image or video.")
+        url.set("https://github.com/the-best-is-best/ComposeQuill")
+        licenses {
+            license {
+                name.set("Apache-2.0")
+                url.set("https://opensource.org/licenses/Apache-2.0")
+            }
+        }
+        issueManagement {
+            system.set("Github")
+            url.set("https://github.com/the-best-is-best/ComposeQuill/issues")
+        }
+        scm {
+            connection.set("https://github.com/the-best-is-best/ComposeQuill.git")
+            url.set("https://github.com/the-best-is-best/ComposeQuill")
+        }
+        developers {
+            developer {
+                id.set("MichelleRaouf")
+                name.set("Michelle Raouf")
+                email.set("eng.michelle.raouf@gmail.com")
+            }
+        }
+    }
+
+}
+
+
+
+
+kotlin {
+    androidTarget {
+        compilations.all {
+            compileTaskProvider {
+                compilerOptions {
+                    jvmTarget.set(JvmTarget.JVM_1_8)
+                    freeCompilerArgs.add("-Xjdk-release=${JavaVersion.VERSION_1_8}")
                 }
             }
-
-}
-
-
-signing {
-    useGpgCmd()
-    sign(publishing.publications)
-}
-android {
-    namespace = "com.tbib.composequill"
-
-    compileSdk = 34
-    buildFeatures {
-        compose = true
+        }
+        //https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-test.html
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        instrumentedTestVariant {
+            sourceSetTree.set(KotlinSourceSetTree.test)
+            dependencies {
+                debugImplementation(libs.androidx.testManifest)
+                implementation(libs.androidx.junit4)
+            }
+        }
     }
+
+    jvm()
+
+//    js {
+//        browser()
+//        binaries.executable()
+//    }
+
+//    @OptIn(ExperimentalWasmDsl::class)
+//    wasmJs {
+//        browser()
+//        binaries.executable()
+//    }
+
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
+            baseName = "ComposeQuill"
+            isStatic = true
+        }
+    }
+
+    sourceSets {
+        commonMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
+            implementation(libs.coil)
+            implementation(libs.coil.network.ktor)
+            implementation(libs.napier)
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.ktor.core)
+            implementation(libs.kotlinx.serialization.json)
+
+            implementation(libs.filekit.compose)
+            implementation(libs.kpermissions)
+            implementation(libs.search.drop.down)
+            implementation(libs.compose.rich.editor)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.color.picker)
+            implementation(libs.google.fonts)
+
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
+
+        }
+
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            @OptIn(ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
+        }
+
+        androidMain.dependencies {
+            implementation(compose.uiTooling)
+            implementation(libs.androidx.activityCompose)
+            implementation(libs.kotlinx.coroutines.android)
+            implementation(libs.ktor.client.okhttp)        }
+
+        jvmMain.dependencies {
+            implementation(compose.desktop.currentOs)
+            implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.ktor.client.okhttp)        }
+//
+//        jsMain.dependencies {
+//            implementation(compose.html.core)
+        //    implementation(libs.ktor.client.js)
+//        }
+
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+        }
+
+    }
+}
+
+android {
+    namespace = "io.github.lib"
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 21
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.VERSION_1_8
+        }
+        buildFeatures {
+            //enables a Compose tooling support in the AndroidStudio
+            compose = true
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
+}
+compose.desktop {
+    application {
+        mainClass = "MainKt"
+
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = "io.github.lib.desktopApp"
+            packageVersion = "1.0.0"
+        }
     }
 }
 
-dependencies {
-    implementation("androidx.activity:activity-compose:1.9.0")
-    implementation(platform("androidx.compose:compose-bom:2024.06.00"))
-    implementation("io.github.the-best-is-best:media-picker:1.0.3")
-    implementation("io.github.the-best-is-best:compose-request-permission:1.0.0")
-    implementation("androidx.documentfile:documentfile:1.0.1")
+room {
+    schemaDirectory("$projectDir/schemas")
+}
 
-    implementation("io.github.the-best-is-best:ComposeSearchableDropdown:2.0.1")
-    implementation("androidx.compose.ui:ui:1.6.8")
-    implementation("androidx.compose.material3:material3:1.2.1")
-    implementation("com.mohamedrejeb.richeditor:richeditor-compose:1.0.0-rc05")
-    implementation("androidx.compose.material:material-icons-extended:1.6.8")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.0")
-    implementation("com.github.skydoves:colorpicker-compose:1.0.8")
-    implementation("androidx.compose.ui:ui-text-google-fonts:1.6.8")
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
-    implementation("io.objectbox:objectbox-kotlin:4.0.1")
+dependencies {
+    ksp(libs.room.compiler)
+
 }
