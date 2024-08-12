@@ -9,6 +9,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/API" />
             <option value="$PROJECT_DIR$/ComposeQuill" />
             <option value="$PROJECT_DIR$/simple" />
             <option value="$PROJECT_DIR$/simple/composeApp" />

@@ -32,4 +32,5 @@ dependencyResolutionManagement {
 }
 include(":ComposeQuill")
 include(":simple:composeApp")
+include("API")
 

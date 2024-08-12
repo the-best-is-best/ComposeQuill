@@ -12,6 +12,8 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    alias(libs.plugins.kotlinx.serialization)
+
     id("maven-publish")
     id("signing")
     alias(libs.plugins.maven.publish)
@@ -149,6 +151,8 @@ kotlin {
             implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)
 
+            implementation(project(":API"))
+
         }
 
         commonTest.dependencies {
@@ -161,12 +165,14 @@ kotlin {
             implementation(compose.uiTooling)
             implementation(libs.androidx.activityCompose)
             implementation(libs.kotlinx.coroutines.android)
-            implementation(libs.ktor.client.okhttp)        }
+            implementation(libs.ktor.client.okhttp)
+        }
 
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
-            implementation(libs.ktor.client.okhttp)        }
+            implementation(libs.ktor.client.okhttp)
+        }
 //
 //        jsMain.dependencies {
 //            implementation(compose.html.core)
@@ -203,7 +209,7 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "io.github.lib.desktopApp"
+            packageName = "io.github.composeQuill.desktopApp"
             packageVersion = "1.0.0"
         }
     }
